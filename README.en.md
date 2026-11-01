@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="README.md">中文</a> · English · <a href="https://github.com/Sophora-2325/Auto-Novel-Writer/releases">Downloads &amp; releases</a> · <a href="#getting-started">Getting started</a> · <a href="https://github.com/Sophora-2325/Auto-Novel-Writer/issues">Report an issue</a>
+  <a href="README.md">中文</a> · English · <a href="https://github.com/Sophora-2325/ShizhangWriter/releases">Downloads &amp; releases</a> · <a href="#getting-started">Getting started</a> · <a href="https://github.com/Sophora-2325/ShizhangWriter/issues">Report an issue</a>
 </p>
 
 ---
