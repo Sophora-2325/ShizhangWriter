@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  中文 · <a href="README.en.md">English</a> · <a href="https://github.com/Sophora-2325/Auto-Novel-Writer/releases">下载安装包</a> · <a href="#快速开始">快速开始</a> · <a href="https://github.com/Sophora-2325/Auto-Novel-Writer/issues">反馈问题</a>
+  中文 · <a href="README.en.md">English</a> · <a href="https://github.com/Sophora-2325/ShizhangWriter/releases">下载安装包</a> · <a href="#快速开始">快速开始</a> · <a href="https://github.com/Sophora-2325/ShizhangWriter/issues">反馈问题</a>
 </p>
 
 ---
@@ -237,7 +237,7 @@ docs-media/           品牌、界面与宣传视频素材
 
 [Windows 使用说明](docs/WINDOWS.md) · [桌面端说明](docs/DESKTOP_WPF.md) · [技术栈](docs/STACK.md) · [界面基线](docs/UI_BASELINE.md) · [项目简介](ABOUT.md)
 
-遇到问题或希望提出建议，请在 [Issues](https://github.com/Sophora-2325/Auto-Novel-Writer/issues) 中说明操作步骤、应用版本与预期行为；提供截图或日志前，请隐去密钥及不希望公开的作品内容。
+遇到问题或希望提出建议，请在 [Issues](https://github.com/Sophora-2325/ShizhangWriter/issues) 中说明操作步骤、应用版本与预期行为；提供截图或日志前，请隐去密钥及不希望公开的作品内容。
 
 ## 许可
 
