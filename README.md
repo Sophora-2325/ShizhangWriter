@@ -27,7 +27,6 @@
 
 [![拾章写作宣传片：从你的第一章开始，点击封面观看](docs-media/promo/cover.png)](docs-media/promo/shizhang-writer-60s.mp4)
 
- **[▶ 播放或下载宣传片](docs-media/promo/shizhang-writer-60s.mp4)**
 
 
 ## 为什么使用拾章写作
