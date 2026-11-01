@@ -9,7 +9,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Windows-10%20%2F%2011%20x64-0078D6" alt="Windows 10 / 11 x64">
-  <img src="https://img.shields.io/badge/version-0.3.21-2C4A73" alt="版本 0.3.21">
+  <img src="https://img.shields.io/badge/version-1.0.0-2C4A73" alt="版本 1.0.0">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-CC%20BY--NC%204.0-62666C" alt="许可 CC BY-NC 4.0"></a>
 </p>
 
