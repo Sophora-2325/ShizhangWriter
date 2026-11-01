@@ -22,13 +22,13 @@
 
 Projects live in folders on your PC. You choose the model provider. Cloud-model credits are not included, and third-party API calls may incur charges.
 
-The current version is **0.3.21**; see the [release notes](docs/RELEASE_0.3.21.md) in Chinese. The launch file is `ShizhangWriter.exe`. Existing installer filenames, install locations, configuration and data folders retain `novel-gm` for compatibility.
+The current version is **1.0.0**. The launch file is `ShizhangWriter.exe`. Existing installer filenames, install locations, configuration and data folders retain `novel-gm` for compatibility.
 
 ## Getting started
 
 ### Windows installer
 
-Visit [Releases](https://github.com/Sophora-2325/Auto-Novel-Writer/releases) for published Windows x64 installers, named `novel-gm-setup-<version>.exe`. Available download versions depend on what has been uploaded there.
+Visit [Releases](https://github.com/Sophora-2325/ShizhangWriter/releases) for published Windows x64 installers, named `novel-gm-setup-<version>.exe`. Available download versions depend on what has been uploaded there.
 
 The installer includes the desktop client, backend and Python runtime. **You do not need to install Python, Node.js or the .NET SDK separately.** Windows 10 / 11 (x64) is required.
 
