@@ -63,7 +63,7 @@
 
 系统要求：**Windows 10 / 11，x64。**
 
-前往 [Releases 页面](https://github.com/Sophora-2325/Auto-Novel-Writer/releases) 选择 Windows 安装包，可下载版本以页面实际附件为准。安装后启动 **Shizhang Writer**，程序入口为 `ShizhangWriter.exe`。
+前往 [Releases 页面](https://github.com/Sophora-2325/ShizhangWriter/releases) 选择 Windows 安装包，可下载版本以页面实际附件为准。安装后启动 **Shizhang Writer**，程序入口为 `ShizhangWriter.exe`。
 
 完整安装包包含桌面客户端、后端与 Python 运行环境，**使用安装包不需要另装 Python、Node.js 或 .NET SDK**。
 
@@ -176,14 +176,6 @@ source: 自定义
 | 语言与外观 | `%APPDATA%\novel-gm\ui.json` |
 
 中文名称为「拾章写作」，英文名称为 **Shizhang Writer**。内部标识、配置及数据目录继续使用 `novel-gm`，保持与已有作品和安装配置兼容。
-
-## 当前版本
-
-当前源码版本为 **0.3.21**，详见 [版本说明](docs/RELEASE_0.3.21.md)。
-
-- 中文与英文品牌名称统一，启动程序使用 `ShizhangWriter.exe`。
-- 「杂项」页按文风偏好、内容与用词约束组织，支持总览和就地编辑。
-- 文风参考按完整片段编辑；句长、规则摘要与保存状态更便于查看。
 
 ## 从源码运行
 
