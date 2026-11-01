@@ -27,9 +27,8 @@
 
 [![拾章写作宣传片：从你的第一章开始，点击封面观看](docs-media/promo/cover.png)](docs-media/promo/shizhang-writer-60s.mp4)
 
-**[▶ 播放或下载宣传片](docs-media/promo/shizhang-writer-60s.mp4)** · 60 秒 · 1080p · 中文旁白与字幕 · 约 9.3 MB
+ **[▶ 播放或下载宣传片](docs-media/promo/shizhang-writer-60s.mp4)**
 
-视频展示写作工作台、AI 规划、文风偏好、专注写作和导出功能。演示作品名为「拾章」，界面使用初始化空白内容。
 
 ## 为什么使用拾章写作
 
