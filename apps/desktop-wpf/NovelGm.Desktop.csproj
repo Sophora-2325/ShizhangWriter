@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationTitle>Shizhang Writer</ApplicationTitle>
+    <AssemblyTitle>Shizhang Writer</AssemblyTitle>
+    <Product>Shizhang Writer</Product>
+    <AssemblyName>novel-gm</AssemblyName>
+    <Version>0.3.21</Version>
+    <RootNamespace>NovelGm.Desktop</RootNamespace>
+    <ApplicationIcon>Assets\novel-gm.ico</ApplicationIcon>
+    <Deterministic>true</Deterministic>
+    <PathMap>$(MSBuildProjectDirectory)=/_/novel-gm</PathMap>
+    <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
+  </PropertyGroup>
+  <ItemGroup>
+    <Resource Include="Assets\novel-gm.ico" />
+    <Resource Include="Assets\novel-gm-256.png" />
+    <None Remove="Assets\novel-gm-256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="NovelGm.Desktop.Tests" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,437 @@
+<UserControl x:Class="NovelGm.Desktop.Controls.FormatToolbar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <UserControl.Resources>
+    <Style x:Key="ToolToggle" TargetType="ToggleButton">
+      <Setter Property="Width" Value="32"/>
+      <Setter Property="Height" Value="32"/>
+      <Setter Property="MinHeight" Value="32"/>
+      <Setter Property="Margin" Value="2,0"/>
+      <Setter Property="Padding" Value="4"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Focusable" Value="True"/>
+      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+      <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ToggleButton">
+            <Border x:Name="Bd" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" CornerRadius="3">
+              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ToolHoverBrush}"/>
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SidebarPressedBrush}"/>
+              </Trigger>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource InfoBgBrush}"/>
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource InfoBorderBrush}"/>
+              </Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource SelectedBarBrush}"/>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Bd" Property="Opacity" Value="0.4"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="ToolTextToggle" TargetType="ToggleButton" BasedOn="{StaticResource ToolToggle}">
+      <Setter Property="Width" Value="Auto"/>
+      <Setter Property="MinWidth" Value="0"/>
+      <Setter Property="Padding" Value="8,4"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="ToolCombo" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+      <Setter Property="MinHeight" Value="30"/>
+      <Setter Property="Height" Value="30"/>
+      <Setter Property="Padding" Value="6,2"/>
+      <Setter Property="Margin" Value="3,0"/>
+      <Setter Property="FontSize" Value="13"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="ToolSep" TargetType="Border">
+      <Setter Property="Width" Value="1"/>
+      <Setter Property="Height" Value="18"/>
+      <Setter Property="Margin" Value="7,0"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="Background" Value="{DynamicResource BorderBrushKey}"/>
+    </Style>
+
+    <Style x:Key="ToolIcon" TargetType="Path">
+      <Setter Property="Width" Value="16"/>
+      <Setter Property="Height" Value="16"/>
+      <Setter Property="Stretch" Value="Uniform"/>
+      <Setter Property="StrokeThickness" Value="1.4"/>
+      <Setter Property="Stroke" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="StrokeLineJoin" Value="Round"/>
+      <Setter Property="StrokeStartLineCap" Value="Round"/>
+      <Setter Property="StrokeEndLineCap" Value="Round"/>
+      <Setter Property="SnapsToDevicePixels" Value="True"/>
+    </Style>
+
+    <Style x:Key="ToolIconButton" TargetType="Button">
+      <Setter Property="Width" Value="30"/>
+      <Setter Property="Height" Value="30"/>
+      <Setter Property="Margin" Value="1,0"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Focusable" Value="True"/>
+      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+      <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Bd" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" CornerRadius="3">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ToolHoverBrush}"/>
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SidebarPressedBrush}"/>
+              </Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource SelectedBarBrush}"/>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Bd" Property="Opacity" Value="0.4"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="MoreAction" TargetType="Button">
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="Height" Value="32"/>
+      <Setter Property="Padding" Value="6,4"/>
+      <Setter Property="Margin" Value="0,1"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Focusable" Value="True"/>
+      <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Bd" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" CornerRadius="3"
+                    Padding="{TemplateBinding Padding}">
+              <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource ToolHoverBrush}"/>
+              </Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource SelectedBarBrush}"/>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Bd" Property="Opacity" Value="0.4"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="MoreLabel" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+      <Setter Property="Margin" Value="0,8,0,4"/>
+    </Style>
+
+    <Style x:Key="MoreCombo" TargetType="ComboBox" BasedOn="{StaticResource ToolCombo}">
+      <Setter Property="Margin" Value="0,0,0,4"/>
+    </Style>
+
+    <Style x:Key="Swatch" TargetType="Button">
+      <Setter Property="Width" Value="20"/>
+      <Setter Property="Height" Value="20"/>
+      <Setter Property="Margin" Value="2"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Focusable" Value="True"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{DynamicResource BorderBrushKey}"
+                    BorderThickness="1" CornerRadius="3"/>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                <Setter TargetName="Bd" Property="BorderThickness" Value="2"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <!-- 三节点分享图标：与「在子窗口打开」的方框箭头区分。 -->
+    <Geometry x:Key="ShareIcon">M2.6,5.3 A2.2,2.2 0 0 1 4.8,7.5 A2.2,2.2 0 0 1 2.6,9.7 A2.2,2.2 0 0 1 0.4,7.5 A2.2,2.2 0 0 1 2.6,5.3 M12.6,0.4 A2.2,2.2 0 0 1 14.8,2.6 A2.2,2.2 0 0 1 12.6,4.8 A2.2,2.2 0 0 1 10.4,2.6 A2.2,2.2 0 0 1 12.6,0.4 M12.6,10.2 A2.2,2.2 0 0 1 14.8,12.4 A2.2,2.2 0 0 1 12.6,14.6 A2.2,2.2 0 0 1 10.4,12.4 A2.2,2.2 0 0 1 12.6,10.2 M4.4,6.4 L10.9,3.1 M4.4,8.6 L10.9,11.9</Geometry>
+  </UserControl.Resources>
+
+  <Border x:Name="RootBar" Background="{DynamicResource BgBrush}" BorderBrush="{DynamicResource BorderBrushKey}"
+          BorderThickness="0,0,0,1" Padding="10,6" SizeChanged="RootBar_SizeChanged">
+    <Grid>
+      <StackPanel x:Name="ToolRow" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <StackPanel x:Name="FocusGroup" Orientation="Horizontal" VerticalAlignment="Center">
+          <ToggleButton x:Name="FocusButton" Style="{StaticResource ToolTextToggle}" Click="Focus_Click"
+                        ToolTip="{DynamicResource Fmt.FocusTip}" AutomationProperties.Name="{DynamicResource Fmt.Focus}">
+            <StackPanel Orientation="Horizontal">
+              <Path Style="{StaticResource ToolIcon}" Data="M8,1.5 A6.5,6.5 0 1 0 8,14.5 A6.5,6.5 0 1 0 8,1.5 M8,5 A3,3 0 1 0 8,11 A3,3 0 1 0 8,5 M8,0 V2 M8,14 V16 M0,8 H2 M14,8 H16"/>
+              <TextBlock x:Name="FocusText" Text="{DynamicResource Fmt.Focus}" Margin="5,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+            </StackPanel>
+          </ToggleButton>
+        </StackPanel>
+
+        <StackPanel x:Name="WidthGroup" Orientation="Horizontal" VerticalAlignment="Center">
+          <Border Style="{StaticResource ToolSep}"/>
+          <ToggleButton x:Name="WidthButton" Style="{StaticResource ToolTextToggle}" Click="Width_Click"
+                        ToolTip="{DynamicResource Fmt.WidthTip}" AutomationProperties.Name="{DynamicResource Fmt.WidthTip}">
+            <StackPanel Orientation="Horizontal">
+              <Path Style="{StaticResource ToolIcon}" Data="M2,2 H14 V14 H2 Z M4.5,8 H11.5 M9,5.5 L11.5,8 L9,10.5 M7,5.5 L4.5,8 L7,10.5"/>
+              <TextBlock x:Name="WidthText" Margin="5,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+            </StackPanel>
+          </ToggleButton>
+        </StackPanel>
+
+        <StackPanel x:Name="SizeGroup" Orientation="Horizontal" VerticalAlignment="Center">
+          <Border Style="{StaticResource ToolSep}"/>
+          <ComboBox x:Name="SizeCombo" Style="{StaticResource ToolCombo}" Width="76"
+                    ToolTip="{DynamicResource Fmt.SizeTip}" AutomationProperties.Name="{DynamicResource Fmt.SizeTip}"
+                    IsEditable="True" DisplayMemberPath="Display" TextSearch.TextPath="Display"
+                    SelectionChanged="SizeCombo_SelectionChanged" KeyDown="SizeCombo_KeyDown" LostKeyboardFocus="SizeCombo_LostKeyboardFocus"/>
+        </StackPanel>
+
+        <StackPanel x:Name="StyleGroup" Orientation="Horizontal" VerticalAlignment="Center">
+          <Border Style="{StaticResource ToolSep}"/>
+          <ComboBox x:Name="StyleCombo" Style="{StaticResource ToolCombo}" Width="92"
+                    ToolTip="{DynamicResource Fmt.Style}" AutomationProperties.Name="{DynamicResource Fmt.Style}"
+                    DisplayMemberPath="Display" SelectionChanged="StyleCombo_SelectionChanged"/>
+        </StackPanel>
+
+        <StackPanel x:Name="ImageGroup" Orientation="Horizontal" VerticalAlignment="Center">
+          <Border Style="{StaticResource ToolSep}"/>
+          <Button x:Name="ImageButton" Style="{StaticResource ToolIconButton}" ToolTip="{DynamicResource Fmt.InsertImageTip}"
+                  AutomationProperties.Name="{DynamicResource Fmt.InsertImage}" Click="Image_Click">
+            <Path Style="{StaticResource ToolIcon}" Data="M0.5,2.5 H13.5 V13.5 H0.5 Z M0.5,10.5 L4.5,6.5 L7.5,9.5 L9.5,7.5 L13.5,11.5 M10,5.2 A1.1,1.1 0 1 1 10,5.21"/>
+          </Button>
+        </StackPanel>
+
+        <StackPanel x:Name="DictationGroup" Orientation="Horizontal" VerticalAlignment="Center">
+          <Border Style="{StaticResource ToolSep}"/>
+          <ToggleButton x:Name="MicButton" Style="{StaticResource ToolToggle}" ToolTip="{DynamicResource Fmt.Dictation}"
+                        AutomationProperties.Name="{DynamicResource Fmt.Dictation}" Click="Mic_Click">
+            <Path Style="{StaticResource ToolIcon}" Width="14" Height="16"
+                  Data="M7,1 C5.6,1 4.5,2.1 4.5,3.5 V7 C4.5,8.4 5.6,9.5 7,9.5 C8.4,9.5 9.5,8.4 9.5,7 V3.5 C9.5,2.1 8.4,1 7,1 Z M2.5,7 C2.5,9.5 4.5,11.5 7,11.5 C9.5,11.5 11.5,9.5 11.5,7 M7,11.5 V14 M4.5,14 H9.5"/>
+          </ToggleButton>
+          <ComboBox x:Name="DictationLangCombo" Style="{StaticResource ToolCombo}" Width="66"
+                    ToolTip="{DynamicResource Fmt.DictationLang}" AutomationProperties.Name="{DynamicResource Fmt.DictationLang}"
+                    DisplayMemberPath="Display" SelectionChanged="DictationLang_SelectionChanged"/>
+          <StackPanel x:Name="RecIndicator" Orientation="Horizontal" VerticalAlignment="Center" Margin="4,0,2,0" Visibility="Collapsed">
+            <Ellipse Width="8" Height="8" Fill="#E53935" VerticalAlignment="Center"/>
+            <TextBlock x:Name="RecElapsedText" Text="0:00" Margin="5,0,0,0" FontSize="12"
+                       Foreground="{DynamicResource MutedBrush}" VerticalAlignment="Center"/>
+          </StackPanel>
+          <Button x:Name="StopButton" Style="{StaticResource ToolIconButton}" Visibility="Collapsed"
+                  ToolTip="{DynamicResource Fmt.Stop}" AutomationProperties.Name="{DynamicResource Fmt.Stop}"
+                  Click="Stop_Click">
+            <Path Style="{StaticResource ToolIcon}" Data="M4,4 H12 V12 H4 Z"/>
+          </Button>
+          <TextBlock x:Name="DictationStatus" FontSize="12" Margin="4,0,0,0" VerticalAlignment="Center"
+                     Foreground="{DynamicResource MutedBrush}" TextTrimming="CharacterEllipsis" MaxWidth="180"
+                     Visibility="Collapsed"/>
+        </StackPanel>
+
+        <StackPanel x:Name="CommentGroup" Orientation="Horizontal" VerticalAlignment="Center">
+          <Border Style="{StaticResource ToolSep}"/>
+          <Button x:Name="CommentButton" Style="{StaticResource ToolIconButton}" ToolTip="{DynamicResource Fmt.CommentAdd}"
+                  AutomationProperties.Name="{DynamicResource Fmt.CommentAdd}" Click="Comment_Click">
+            <Path Style="{StaticResource ToolIcon}" Data="M2,3 H14 V11 H8 L4.5,14 V11 H2 Z M7,5.5 V8.5 M5.5,7 H8.5"/>
+          </Button>
+        </StackPanel>
+
+        <StackPanel x:Name="HistoryGroup" Orientation="Horizontal" VerticalAlignment="Center">
+          <Border Style="{StaticResource ToolSep}"/>
+          <Button x:Name="HistoryButton" Style="{StaticResource ToolIconButton}" ToolTip="{DynamicResource Fmt.HistoryTip}"
+                  AutomationProperties.Name="{DynamicResource Fmt.History}" Click="History_Click">
+            <Path Style="{StaticResource ToolIcon}" Data="M8,2 A6,6 0 1 1 2,8 M8,4.5 V8 L10.5,9.8 M2,8 L0.5,6.5 M2,8 L3.5,6.5"/>
+          </Button>
+        </StackPanel>
+
+        <StackPanel x:Name="MoreGroup" Orientation="Horizontal" VerticalAlignment="Center">
+          <Border Style="{StaticResource ToolSep}"/>
+          <ToggleButton x:Name="MoreButton" Style="{StaticResource ToolTextToggle}" ToolTip="{DynamicResource Fmt.MoreTip}"
+                        AutomationProperties.Name="{DynamicResource Fmt.More}" Click="More_Click">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="{DynamicResource Fmt.More}" VerticalAlignment="Center" FontSize="13"/>
+              <Path Style="{StaticResource ToolIcon}" Width="10" Height="10" Margin="3,1,0,0"
+                    Data="M2,4 L5,7 L8,4"/>
+            </StackPanel>
+          </ToggleButton>
+        </StackPanel>
+      </StackPanel>
+
+      <TextBlock x:Name="BusyHint" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0"
+                 FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource AccentBrush}"
+                 IsHitTestVisible="False" TextTrimming="CharacterEllipsis" MaxWidth="180" Visibility="Collapsed"/>
+
+      <Popup x:Name="MorePopup" PlacementTarget="{Binding ElementName=MoreButton}" Placement="Bottom"
+             VerticalOffset="4" StaysOpen="True" AllowsTransparency="True" PopupAnimation="Fade"
+             Closed="MorePopup_Closed">
+        <Border Background="{DynamicResource BgBrush}" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1"
+                CornerRadius="3" Padding="12" Width="320" Margin="0,2,10,10">
+          <Border.Effect>
+            <DropShadowEffect BlurRadius="12" ShadowDepth="3" Opacity="0.18"/>
+          </Border.Effect>
+          <ScrollViewer MaxHeight="580" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+              <TextBlock Text="{DynamicResource Fmt.MoreFormat}" Style="{StaticResource MoreLabel}" Margin="0,0,0,4"/>
+
+              <TextBlock Text="{DynamicResource Fmt.Font}" Style="{StaticResource MoreLabel}"/>
+              <ComboBox x:Name="FontCombo" Style="{StaticResource MoreCombo}" Width="200"
+                        ToolTip="{DynamicResource Fmt.Font}" AutomationProperties.Name="{DynamicResource Fmt.Font}"
+                        DisplayMemberPath="Display" SelectionChanged="FontCombo_SelectionChanged"/>
+
+              <TextBlock Text="{DynamicResource Fmt.Spacing}" Style="{StaticResource MoreLabel}"/>
+              <ComboBox x:Name="SpacingCombo" Style="{StaticResource MoreCombo}" Width="84"
+                        ToolTip="{DynamicResource Fmt.Spacing}" AutomationProperties.Name="{DynamicResource Fmt.Spacing}"
+                        DisplayMemberPath="Display" SelectionChanged="SpacingCombo_SelectionChanged"/>
+
+              <TextBlock Text="{DynamicResource Fmt.Shape}" Style="{StaticResource MoreLabel}"/>
+              <WrapPanel>
+                <ToggleButton x:Name="BoldButton" Style="{StaticResource ToolToggle}" ToolTip="{DynamicResource Fmt.Bold}"
+                              AutomationProperties.Name="{DynamicResource Fmt.Bold}" Click="Bold_Click">
+                  <TextBlock Text="B" FontWeight="Bold" FontSize="15" FontFamily="Segoe UI"/>
+                </ToggleButton>
+                <ToggleButton x:Name="ItalicButton" Style="{StaticResource ToolToggle}" ToolTip="{DynamicResource Fmt.Italic}"
+                              AutomationProperties.Name="{DynamicResource Fmt.Italic}" Click="Italic_Click">
+                  <TextBlock Text="I" FontStyle="Italic" FontSize="15" FontFamily="Georgia"/>
+                </ToggleButton>
+                <ToggleButton x:Name="UnderlineButton" Style="{StaticResource ToolToggle}" ToolTip="{DynamicResource Fmt.Underline}"
+                              AutomationProperties.Name="{DynamicResource Fmt.Underline}" Click="Underline_Click">
+                  <TextBlock Text="U" TextDecorations="Underline" FontSize="15" FontFamily="Segoe UI"/>
+                </ToggleButton>
+                <ToggleButton x:Name="IndentButton" Style="{StaticResource ToolToggle}" ToolTip="{DynamicResource Fmt.Indent}"
+                              AutomationProperties.Name="{DynamicResource Fmt.Indent}" Click="Indent_Click">
+                  <Path Style="{StaticResource ToolIcon}" Data="M6,1.5 H14 M0,5.5 H14 M0,9.5 H14 M0,13.5 H14 M0.5,0 L3.5,1.5 L0.5,3"/>
+                </ToggleButton>
+              </WrapPanel>
+
+              <TextBlock Text="{DynamicResource Fmt.Align}" Style="{StaticResource MoreLabel}"/>
+              <WrapPanel>
+                <ToggleButton x:Name="AlignLeftButton" Style="{StaticResource ToolToggle}" ToolTip="{DynamicResource Fmt.AlignLeft}"
+                              AutomationProperties.Name="{DynamicResource Fmt.AlignLeft}" Tag="Left" Click="Align_Click">
+                  <Path Style="{StaticResource ToolIcon}" Data="M0,1.5 H14 M0,5.5 H9 M0,9.5 H14 M0,13.5 H9"/>
+                </ToggleButton>
+                <ToggleButton x:Name="AlignCenterButton" Style="{StaticResource ToolToggle}" ToolTip="{DynamicResource Fmt.AlignCenter}"
+                              AutomationProperties.Name="{DynamicResource Fmt.AlignCenter}" Tag="Center" Click="Align_Click">
+                  <Path Style="{StaticResource ToolIcon}" Data="M0,1.5 H14 M2.5,5.5 H11.5 M0,9.5 H14 M2.5,13.5 H11.5"/>
+                </ToggleButton>
+                <ToggleButton x:Name="AlignRightButton" Style="{StaticResource ToolToggle}" ToolTip="{DynamicResource Fmt.AlignRight}"
+                              AutomationProperties.Name="{DynamicResource Fmt.AlignRight}" Tag="Right" Click="Align_Click">
+                  <Path Style="{StaticResource ToolIcon}" Data="M0,1.5 H14 M5,5.5 H14 M0,9.5 H14 M5,13.5 H14"/>
+                </ToggleButton>
+                <ToggleButton x:Name="AlignJustifyButton" Style="{StaticResource ToolToggle}" ToolTip="{DynamicResource Fmt.Justify}"
+                              AutomationProperties.Name="{DynamicResource Fmt.Justify}" Tag="Justify" Click="Align_Click">
+                  <Path Style="{StaticResource ToolIcon}" Data="M0,1.5 H14 M0,5.5 H14 M0,9.5 H14 M0,13.5 H14"/>
+                </ToggleButton>
+                <ToggleButton x:Name="ColorButton" Style="{StaticResource ToolToggle}" Width="38" ToolTip="{DynamicResource Fmt.Color}"
+                              AutomationProperties.Name="{DynamicResource Fmt.Color}" Click="Color_Click">
+                  <StackPanel Orientation="Horizontal">
+                    <Grid Width="16" Height="18">
+                      <TextBlock Text="A" FontSize="15" FontFamily="Segoe UI" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-2,0,0"/>
+                      <Rectangle x:Name="ColorBar" Height="3.5" VerticalAlignment="Bottom" Fill="#F5222D"/>
+                    </Grid>
+                    <Path Style="{StaticResource ToolIcon}" Width="8" Height="14" StrokeThickness="1.1" Margin="2,0,0,0" Data="M1,6 L4,9 L7,6"/>
+                  </StackPanel>
+                </ToggleButton>
+              </WrapPanel>
+              <Popup x:Name="ColorPopup" PlacementTarget="{Binding ElementName=ColorButton}" Placement="Bottom"
+                     StaysOpen="False" AllowsTransparency="True" Closed="ColorPopup_Closed">
+                <Border Background="{DynamicResource BgBrush}" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1"
+                        CornerRadius="3" Padding="6" Margin="0,4,8,8">
+                  <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="2" Opacity="0.18"/>
+                  </Border.Effect>
+                  <StackPanel>
+                    <Button x:Name="AutoColorButton" Content="{DynamicResource Fmt.AutoColor}" HorizontalAlignment="Stretch"
+                            MinHeight="26" Padding="8,2" Margin="2,0,2,4" Focusable="False" Click="AutoColor_Click"/>
+                    <UniformGrid x:Name="SwatchGrid" Columns="6"/>
+                  </StackPanel>
+                </Border>
+              </Popup>
+
+              <Button x:Name="ParagraphButton" Style="{StaticResource MoreAction}" Margin="0,8,0,0"
+                      ToolTip="{DynamicResource Fmt.Paragraph}" AutomationProperties.Name="{DynamicResource Fmt.Paragraph}"
+                      Click="Paragraph_Click">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="¶" FontSize="15" Width="16" TextAlignment="Center" VerticalAlignment="Center"/>
+                  <TextBlock Text="{DynamicResource Fmt.Paragraph}" Margin="6,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                </StackPanel>
+              </Button>
+
+              <Border Height="1" Background="{DynamicResource BorderBrushKey}" Margin="0,8"/>
+
+              <StackPanel x:Name="MoreStyleGroup" Visibility="Collapsed">
+                <TextBlock Text="{DynamicResource Fmt.Style}" Style="{StaticResource MoreLabel}" Margin="0,0,0,4"/>
+                <ComboBox x:Name="MoreStyleCombo" Style="{StaticResource MoreCombo}" Width="180"
+                          ToolTip="{DynamicResource Fmt.Style}" AutomationProperties.Name="{DynamicResource Fmt.Style}"
+                          DisplayMemberPath="Display" SelectionChanged="MoreStyleCombo_SelectionChanged"/>
+              </StackPanel>
+
+              <Button x:Name="MoreImageButton" Style="{StaticResource MoreAction}" Visibility="Collapsed"
+                      ToolTip="{DynamicResource Fmt.InsertImageTip}" AutomationProperties.Name="{DynamicResource Fmt.InsertImage}"
+                      Click="Image_Click">
+                <StackPanel Orientation="Horizontal">
+                  <Path Style="{StaticResource ToolIcon}" Data="M0.5,2.5 H13.5 V13.5 H0.5 Z M0.5,10.5 L4.5,6.5 L7.5,9.5 L9.5,7.5 L13.5,11.5 M10,5.2 A1.1,1.1 0 1 1 10,5.21"/>
+                  <TextBlock Text="{DynamicResource Fmt.InsertImage}" Margin="6,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                </StackPanel>
+              </Button>
+              <Button x:Name="MoreCommentButton" Style="{StaticResource MoreAction}" Visibility="Collapsed"
+                      ToolTip="{DynamicResource Fmt.CommentAdd}" AutomationProperties.Name="{DynamicResource Fmt.CommentAdd}"
+                      Click="Comment_Click">
+                <StackPanel Orientation="Horizontal">
+                  <Path Style="{StaticResource ToolIcon}" Data="M2,3 H14 V11 H8 L4.5,14 V11 H2 Z M7,5.5 V8.5 M5.5,7 H8.5"/>
+                  <TextBlock Text="{DynamicResource Fmt.CommentAdd}" Margin="6,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                </StackPanel>
+              </Button>
+              <Button x:Name="MoreHistoryButton" Style="{StaticResource MoreAction}" Visibility="Collapsed"
+                      ToolTip="{DynamicResource Fmt.HistoryTip}" AutomationProperties.Name="{DynamicResource Fmt.History}"
+                      Click="History_Click">
+                <StackPanel Orientation="Horizontal">
+                  <Path Style="{StaticResource ToolIcon}" Data="M8,2 A6,6 0 1 1 2,8 M8,4.5 V8 L10.5,9.8 M2,8 L0.5,6.5 M2,8 L3.5,6.5"/>
+                  <TextBlock Text="{DynamicResource Fmt.History}" Margin="6,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                </StackPanel>
+              </Button>
+
+              <Border Height="1" Background="{DynamicResource BorderBrushKey}" Margin="0,8"/>
+
+              <Button x:Name="PublishButton" Style="{StaticResource MoreAction}"
+                      ToolTip="{DynamicResource Fmt.Publish}" AutomationProperties.Name="{DynamicResource Fmt.Publish}"
+                      Click="Publish_Click">
+                <StackPanel Orientation="Horizontal">
+                  <Path Style="{StaticResource ToolIcon}" Data="{StaticResource ShareIcon}"/>
+                  <TextBlock Text="{DynamicResource Fmt.Publish}" Margin="6,0,0,0" VerticalAlignment="Center" FontSize="13"/>
+                </StackPanel>
+              </Button>
+            </StackPanel>
+          </ScrollViewer>
+        </Border>
+      </Popup>
+    </Grid>
+  </Border>
+</UserControl>

@@ -1,0 +1,31 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+  <sys:String x:Key="Versions.Title">历史版本</sys:String>
+  <sys:String x:Key="Versions.WindowTitle">{0} · 历史版本</sys:String>
+  <sys:String x:Key="Versions.Loading">加载中…</sys:String>
+  <sys:String x:Key="Versions.Empty">还没有历史版本</sys:String>
+  <sys:String x:Key="Versions.LoadFailed">加载历史版本失败：{0}</sys:String>
+  <sys:String x:Key="Versions.PreviewFailed">加载版本内容失败：{0}</sys:String>
+  <sys:String x:Key="Versions.WordCount">{0} 字</sys:String>
+  <sys:String x:Key="Versions.TextOnly">仅文本</sys:String>
+  <sys:String x:Key="Versions.Source.Original">原稿</sys:String>
+  <sys:String x:Key="Versions.Source.Autosave">自动保存</sys:String>
+  <sys:String x:Key="Versions.Source.Ai">AI 生成</sys:String>
+  <sys:String x:Key="Versions.Source.Finalize">定稿</sys:String>
+  <sys:String x:Key="Versions.Source.RestoreBackup">恢复前备份</sys:String>
+  <sys:String x:Key="Versions.Source.Manual">手动保存</sys:String>
+  <sys:String x:Key="Versions.Source.LegacyText">旧版纯文本</sys:String>
+  <sys:String x:Key="Versions.Source.Unknown">未知来源</sys:String>
+  <sys:String x:Key="Versions.Restore">恢复此版本</sys:String>
+  <sys:String x:Key="Versions.RestoreConfirm">恢复后当前正文会被覆盖（恢复前会自动留一份备份）。继续吗？</sys:String>
+  <sys:String x:Key="Versions.RestoreFormatWarn">注意：该版本没有保存格式，恢复后只剩纯文本。</sys:String>
+  <sys:String x:Key="Versions.RestoreDone">已恢复该版本。</sys:String>
+  <sys:String x:Key="Versions.RestoreFailed">恢复失败：{0}</sys:String>
+  <sys:String x:Key="Versions.ReadOnly">本章已作废，只能查看，不能恢复。</sys:String>
+  <sys:String x:Key="Versions.FormatUnavailable">这个版本只存了纯文本，无法恢复原有格式。</sys:String>
+  <sys:String x:Key="Versions.PreviewTitle">预览</sys:String>
+  <sys:String x:Key="Versions.NoSelection">选择左侧版本查看内容</sys:String>
+  <sys:String x:Key="Versions.PreviewEmpty">（这个版本没有正文）</sys:String>
+</ResourceDictionary>

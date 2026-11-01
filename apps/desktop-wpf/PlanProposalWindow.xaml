@@ -1,0 +1,47 @@
+<Window x:Class="NovelGm.Desktop.PlanProposalWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="{DynamicResource Proposal.Title}" Width="900" Height="760" MinWidth="560" MinHeight="460"
+ WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Closing="Window_Closing" PreviewKeyDown="Window_PreviewKeyDown">
+ <DockPanel Margin="20,16">
+  <StackPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+   <TextBlock x:Name="Heading" FontSize="18" FontWeight="SemiBold" TextWrapping="Wrap"/>
+   <TextBlock x:Name="AdoptedState" TextWrapping="Wrap" Margin="0,10,0,3"/>
+   <TextBlock x:Name="DraftState" TextWrapping="Wrap" Foreground="{DynamicResource MutedBrush}"/>
+   <TextBlock x:Name="SaveState" TextWrapping="Wrap" Margin="0,6,0,0" Foreground="{DynamicResource MutedBrush}"/>
+   <ProgressBar x:Name="Progress" Height="3" IsIndeterminate="True" Visibility="Collapsed" Margin="0,10,0,0"/>
+  </StackPanel>
+  <StackPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
+   <TextBlock x:Name="ErrorText" TextWrapping="Wrap" Foreground="{DynamicResource DangerBrush}" Margin="0,0,0,6"/>
+   <WrapPanel x:Name="Actions">
+    <Button x:Name="GenerateButton" Content="{DynamicResource Proposal.Generate}" Click="Generate_Click"/>
+    <Button x:Name="AnswersButton" Content="{DynamicResource Proposal.RegenerateAnswers}" Click="Answers_Click"/>
+    <Button x:Name="ConfirmButton" Content="{DynamicResource Proposal.Adopt}" Style="{DynamicResource PrimaryButton}" Click="Confirm_Click"/>
+    <Button x:Name="HistoryButton" Content="{DynamicResource Proposal.History}" Click="History_Click"/>
+    <Button x:Name="RetryButton" Content="{DynamicResource Proposal.RetrySave}" Click="Retry_Click"/>
+    <Button Content="{DynamicResource Common.Close}" Click="Close_Click"/>
+   </WrapPanel>
+  </StackPanel>
+  <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel x:Name="BodyPanel">
+    <TextBlock x:Name="EmptyHint" Text="{DynamicResource Proposal.Empty}" TextWrapping="Wrap" Margin="0,18,0,20"/>
+    <TextBlock x:Name="OutlineLabel" Text="{DynamicResource Proposal.Outline}" FontSize="16" FontWeight="SemiBold" Margin="0,4,0,8"/>
+    <TextBox x:Name="Outline" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="140" MaxHeight="360"
+     VerticalScrollBarVisibility="Auto" Padding="12" FontSize="14" TextChanged="Outline_TextChanged"/>
+    <TextBlock Text="{DynamicResource Proposal.Diff}" FontSize="16" FontWeight="SemiBold" Margin="0,24,0,8"/>
+    <StackPanel x:Name="DiffPanel"/>
+    <TextBlock Text="{DynamicResource Proposal.Questions}" FontSize="16" FontWeight="SemiBold" Margin="0,24,0,8"/>
+    <TextBlock Text="{DynamicResource Proposal.AnswerHint}" TextWrapping="Wrap" Foreground="{DynamicResource MutedBrush}" Margin="0,0,0,12"/>
+    <StackPanel x:Name="QuestionsPanel"/>
+    <TextBlock x:Name="DecisionsLabel" Text="{DynamicResource Proposal.Decisions}" FontSize="16" FontWeight="SemiBold" Margin="0,24,0,8"/>
+    <StackPanel x:Name="DecisionsPanel"/>
+    <StackPanel x:Name="IssuesPanel" Margin="0,20,0,0"/>
+    <WrapPanel Margin="0,16,0,0">
+     <Button Content="{DynamicResource Stack.EditPlan}" Click="EditPlan_Click"/>
+     <Button Content="{DynamicResource Stack.EditRhythm}" Click="EditRhythm_Click"/>
+     <Button Content="{DynamicResource Proposal.Refresh}" Click="Refresh_Click"/>
+    </WrapPanel>
+   </StackPanel>
+  </ScrollViewer>
+ </DockPanel>
+</Window>

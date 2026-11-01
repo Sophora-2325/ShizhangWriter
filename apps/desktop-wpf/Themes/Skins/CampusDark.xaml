@@ -1,0 +1,52 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- 蓝白 · 深色：夜自习的靛蓝。 -->
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="pack://application:,,,/novel-gm;component/Themes/Dark.xaml"/>
+  </ResourceDictionary.MergedDictionaries>
+
+  <!-- 正文字体：校园风用清爽的等线，配 Segoe UI 的拉丁 -->
+  <FontFamily x:Key="BodyFontFamily">Segoe UI, DengXian, 等线</FontFamily>
+
+  <SolidColorBrush x:Key="BgBrush" Color="#101827"/>
+  <SolidColorBrush x:Key="Bg2Brush" Color="#162033"/>
+  <SolidColorBrush x:Key="Bg3Brush" Color="#1B2740"/>
+  <SolidColorBrush x:Key="PageBrush" Color="#0B111C"/>
+  <SolidColorBrush x:Key="ControlBgBrush" Color="#162033"/>
+  <SolidColorBrush x:Key="BorderBrushKey" Color="#2A3A55"/>
+  <SolidColorBrush x:Key="WindowBorderBrush" Color="#31435F"/>
+  <SolidColorBrush x:Key="TextBrush" Color="#E3EBF8"/>
+  <SolidColorBrush x:Key="MutedBrush" Color="#8DA0BB"/>
+  <SolidColorBrush x:Key="PlaceholderBrush" Color="#61738E"/>
+  <SolidColorBrush x:Key="AccentBrush" Color="#5B9BF8"/>
+  <SolidColorBrush x:Key="AccentHoverBrush" Color="#8FBDFC"/>
+  <SolidColorBrush x:Key="DangerBrush" Color="#F87171"/>
+  <SolidColorBrush x:Key="PrimaryFgBrush" Color="#08172E"/>
+  <SolidColorBrush x:Key="InfoBgBrush" Color="#17305C"/>
+  <SolidColorBrush x:Key="InfoBorderBrush" Color="#2A4F8E"/>
+  <SolidColorBrush x:Key="SelectedBgBrush" Color="#1F4275"/>
+  <SolidColorBrush x:Key="WarningBgBrush" Color="#3A2A18"/>
+  <SolidColorBrush x:Key="WarningBorderBrush" Color="#5C4526"/>
+  <SolidColorBrush x:Key="ToolHoverBrush" Color="#1E2C45"/>
+
+  <SolidColorBrush x:Key="SidebarBrush" Color="#0D1421"/>
+  <SolidColorBrush x:Key="SidebarHoverBrush" Color="#1C2841"/>
+  <SolidColorBrush x:Key="SidebarPressedBrush" Color="#24334E"/>
+  <SolidColorBrush x:Key="SidebarSelectedBrush" Color="#17305C"/>
+
+  <SolidColorBrush x:Key="ScrollThumbBrush" Color="#35486A"/>
+  <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#465C80"/>
+
+  <!-- settings window -->
+  <SolidColorBrush x:Key="SetLineBrush" Color="#1E2B40"/>
+  <SolidColorBrush x:Key="SetCardBorderBrush" Color="#27364F"/>
+  <SolidColorBrush x:Key="SetNavHoverBrush" Color="#1B2539"/>
+  <SolidColorBrush x:Key="SetNavSelectedBrush" Color="#22314A"/>
+  <SolidColorBrush x:Key="SetButtonHoverBrush" Color="#1E2B40"/>
+  <SolidColorBrush x:Key="SetFieldBrush" Color="#1B2539"/>
+  <SolidColorBrush x:Key="SetStrongBrush" Color="#DBEAFE"/>
+  <SolidColorBrush x:Key="SetStrongFgBrush" Color="#0A1A33"/>
+  <SolidColorBrush x:Key="SetStrongHoverBrush" Color="#BFDBFE"/>
+  <SolidColorBrush x:Key="SetSwitchOffBrush" Color="#35486A"/>
+  <!-- OkBrush / SetOnlineBrush 是语义色（成功、在线），六套配色共用 Dark.xaml 里的取值 -->
+</ResourceDictionary>

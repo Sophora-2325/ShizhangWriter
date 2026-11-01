@@ -1,0 +1,685 @@
+<Window x:Class="NovelGm.Desktop.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{DynamicResource Set.Title}" Width="844" Height="664"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        KeyDown="Window_KeyDown">
+  <Window.Resources>
+    <Style x:Key="SetNavItem" TargetType="ListBoxItem">
+      <Setter Property="Padding" Value="14,10"/>
+      <Setter Property="Margin" Value="0,2"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ListBoxItem">
+            <Border x:Name="Bd" Background="Transparent" CornerRadius="10" Padding="{TemplateBinding Padding}">
+              <ContentPresenter/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SetNavHoverBrush}"/>
+              </Trigger>
+              <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SetNavSelectedBrush}"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="SetNavIcon" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+      <Setter Property="FontSize" Value="16"/>
+      <Setter Property="Width" Value="20"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="SetNavText" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="Margin" Value="10,0,0,0"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="SetButton" TargetType="Button">
+      <Setter Property="Padding" Value="12,4"/>
+      <Setter Property="MinHeight" Value="32"/>
+      <Setter Property="Background" Value="{DynamicResource BgBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource SetCardBorderBrush}"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="1" CornerRadius="8" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SetButtonHoverBrush}"/>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Bd" Property="Opacity" Value="0.45"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="SetDarkButton" TargetType="Button" BasedOn="{StaticResource SetButton}">
+      <Setter Property="Background" Value="{DynamicResource SetStrongBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource SetStrongFgBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource SetStrongBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="1" CornerRadius="8" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SetStrongHoverBrush}"/>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Bd" Property="Opacity" Value="0.45"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="SetCloseButton" TargetType="Button">
+      <Setter Property="Width" Value="32"/>
+      <Setter Property="Height" Value="32"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Bd" Background="Transparent" CornerRadius="8">
+              <Path Data="M1,1 L11,11 M11,1 L1,11" Stroke="{DynamicResource TextBrush}" StrokeThickness="1.4"
+                    Width="12" Height="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SetNavHoverBrush}"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="SetSwitch" TargetType="ToggleButton">
+      <Setter Property="Width" Value="46"/>
+      <Setter Property="Height" Value="26"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ToggleButton">
+            <Border x:Name="Track" Background="{DynamicResource SetSwitchOffBrush}" CornerRadius="13">
+              <Ellipse x:Name="Thumb" Width="20" Height="20" Fill="White" Margin="3,0"
+                       HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Track" Property="Background" Value="{DynamicResource SetStrongBrush}"/>
+                <Setter TargetName="Thumb" Property="Fill" Value="{DynamicResource SetStrongFgBrush}"/>
+                <Setter TargetName="Thumb" Property="HorizontalAlignment" Value="Right"/>
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Track" Property="Opacity" Value="0.45"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="SetThemeCard" TargetType="RadioButton">
+      <Setter Property="Height" Value="88"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="GroupName" Value="Theme"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="RadioButton">
+            <Border x:Name="Bd" Background="Transparent" BorderBrush="{DynamicResource SetCardBorderBrush}"
+                    BorderThickness="1" CornerRadius="3" SnapsToDevicePixels="True">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SetNavHoverBrush}"/>
+              </Trigger>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SetNavSelectedBrush}"/>
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource MutedBrush}"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="SetThemeIcon" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+      <Setter Property="FontSize" Value="22"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="SetThemeText" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="13"/>
+      <Setter Property="Margin" Value="0,8,0,0"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+
+    <!-- 主题页的强调色卡片：整块可点，右上角显示选中勾 -->
+    <Style x:Key="SetSkinCard" TargetType="RadioButton">
+      <Setter Property="Height" Value="110"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="GroupName" Value="Accent"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="RadioButton">
+            <Border x:Name="Bd" Background="Transparent" BorderBrush="{DynamicResource SetCardBorderBrush}"
+                    BorderThickness="1" CornerRadius="3" Padding="10,9" SnapsToDevicePixels="True">
+              <Grid>
+                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                <Border x:Name="Check" Width="18" Height="18" CornerRadius="9" HorizontalAlignment="Right"
+                        VerticalAlignment="Top" Background="{DynamicResource AccentBrush}" Visibility="Collapsed">
+                  <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                             Foreground="{DynamicResource PrimaryFgBrush}"
+                             HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+              </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SetNavHoverBrush}"/>
+              </Trigger>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SetNavSelectedBrush}"/>
+                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+                <Setter TargetName="Check" Property="Visibility" Value="Visible"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="SetSkinDesc" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="Margin" Value="0,3,0,0"/>
+      <Setter Property="HorizontalAlignment" Value="Center"/>
+      <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+      <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+    </Style>
+
+    <Style x:Key="SetRow" TargetType="Border">
+      <Setter Property="BorderBrush" Value="{DynamicResource SetLineBrush}"/>
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="Padding" Value="0,18"/>
+    </Style>
+
+    <Style x:Key="SetPageTitle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="18"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    </Style>
+
+    <Style x:Key="SetRowTitle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+    </Style>
+
+    <Style x:Key="SetRowDesc" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="Margin" Value="0,4,0,0"/>
+      <Setter Property="TextWrapping" Value="Wrap"/>
+      <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+    </Style>
+
+    <Style x:Key="SetCard" TargetType="Border">
+      <Setter Property="Background" Value="{DynamicResource BgBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource SetCardBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="16"/>
+      <Setter Property="Padding" Value="18,14"/>
+      <Setter Property="Margin" Value="0,0,0,12"/>
+    </Style>
+
+    <Style x:Key="SetTag" TargetType="Border">
+      <Setter Property="Background" Value="{DynamicResource SetFieldBrush}"/>
+      <Setter Property="CornerRadius" Value="6"/>
+      <Setter Property="Padding" Value="7,1"/>
+      <Setter Property="Margin" Value="10,1,0,0"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="SetCombo" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+      <Setter Property="Width" Value="170"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="SetFieldCombo" TargetType="ComboBox" BasedOn="{StaticResource SetCombo}">
+      <Setter Property="Width" Value="150"/>
+      <Setter Property="Background" Value="{DynamicResource SetFieldBrush}"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Padding" Value="14,5"/>
+      <Setter Property="Tag" Value="16"/>
+    </Style>
+  </Window.Resources>
+
+  <Border Margin="12" Background="{DynamicResource BgBrush}" CornerRadius="16"
+          BorderBrush="{DynamicResource SetCardBorderBrush}" BorderThickness="1">
+    <Border.Effect>
+      <DropShadowEffect BlurRadius="18" ShadowDepth="2" Opacity="0.18"/>
+    </Border.Effect>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="168"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="68"/>
+        <RowDefinition Height="*"/>
+      </Grid.RowDefinitions>
+
+      <!-- header: drag area, title, config and close buttons -->
+      <Border Grid.ColumnSpan="2" Background="Transparent" MouseLeftButtonDown="Header_MouseLeftButtonDown">
+        <Grid Margin="28,0,18,0">
+          <TextBlock Text="{DynamicResource Set.Title}" FontSize="19" VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Button Style="{StaticResource SetCloseButton}" ToolTip="{DynamicResource Set.Close}" Click="Close_Click"/>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <ListBox x:Name="NavList" Grid.Row="1" Grid.Column="0" Margin="14,0,8,14" Padding="0" BorderThickness="0"
+               Background="Transparent" ItemContainerStyle="{StaticResource SetNavItem}"
+               SelectionChanged="NavList_SelectionChanged">
+        <ListBoxItem Tag="general">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="&#xE713;" Style="{StaticResource SetNavIcon}"/>
+            <TextBlock Text="{DynamicResource Set.NavGeneral}" Style="{StaticResource SetNavText}"/>
+          </StackPanel>
+        </ListBoxItem>
+        <ListBoxItem Tag="appearance">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="&#xE790;" Style="{StaticResource SetNavIcon}"/>
+            <TextBlock Text="{DynamicResource Set.NavTheme}" Style="{StaticResource SetNavText}"/>
+          </StackPanel>
+        </ListBoxItem>
+        <ListBoxItem Tag="models">
+          <StackPanel Orientation="Horizontal">
+            <Path Width="20" Height="18" Stretch="None" Stroke="{DynamicResource TextBrush}" StrokeThickness="1.4"
+                  VerticalAlignment="Center"
+                  Data="M3,4 C3,2.6 5.7,1.5 9,1.5 C12.3,1.5 15,2.6 15,4 C15,5.4 12.3,6.5 9,6.5 C5.7,6.5 3,5.4 3,4 Z M3,4 L3,14 C3,15.4 5.7,16.5 9,16.5 C12.3,16.5 15,15.4 15,14 L15,4 M3,9 C3,10.4 5.7,11.5 9,11.5 C12.3,11.5 15,10.4 15,9"/>
+            <TextBlock Text="{DynamicResource Set.NavModel}" Style="{StaticResource SetNavText}"/>
+          </StackPanel>
+        </ListBoxItem>
+        <ListBoxItem Tag="advanced">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="&#xE713;" Style="{StaticResource SetNavIcon}"/>
+            <TextBlock Text="{DynamicResource Set.NavAdvanced}" Style="{StaticResource SetNavText}"/>
+          </StackPanel>
+        </ListBoxItem>
+      </ListBox>
+
+      <Grid x:Name="ContentHost" Grid.Row="1" Grid.Column="1" SizeChanged="ContentHost_SizeChanged">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*"/>
+          <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- general page -->
+        <ScrollViewer x:Name="GeneralPage" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel Margin="24,0,32,24">
+            <TextBlock Text="{DynamicResource Set.NavGeneral}" Style="{StaticResource SetPageTitle}"/>
+            <TextBlock Text="{DynamicResource Set.GeneralDesc}" Style="{StaticResource SetRowDesc}" FontSize="13" Margin="0,8,0,6"/>
+
+            <Border Style="{StaticResource SetRow}">
+              <Grid Tag="pair">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,16,0">
+                  <TextBlock Text="{DynamicResource Set.Language}" Style="{StaticResource SetRowTitle}"/>
+                  <TextBlock Text="{DynamicResource Set.LanguageDesc}" Style="{StaticResource SetRowDesc}"/>
+                </StackPanel>
+                <ComboBox x:Name="LanguageCombo" Grid.Column="1" Style="{StaticResource SetFieldCombo}"
+                          SelectionChanged="Language_Changed">
+                  <ComboBoxItem Content="中文" Tag="zh-CN"/>
+                  <ComboBoxItem Content="English" Tag="en-US"/>
+                  <ComboBoxItem Content="日本語" Tag="ja-JP"/>
+                </ComboBox>
+              </Grid>
+            </Border>
+
+            <Border Style="{StaticResource SetRow}">
+              <Grid Tag="pair">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,16,0">
+                  <TextBlock Text="{DynamicResource Stt.Title}" Style="{StaticResource SetRowTitle}"/>
+                  <TextBlock x:Name="SttStatusText" Style="{StaticResource SetRowDesc}" TextWrapping="Wrap"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="{DynamicResource Stt.OpenModelDir}" Style="{StaticResource SetButton}"
+                        VerticalAlignment="Center" Click="OpenSttModelDir_Click"
+                        ToolTip="{DynamicResource Stt.OpenModelDirTip}"/>
+              </Grid>
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+
+        <!-- theme page -->
+        <ScrollViewer x:Name="ThemePage" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed">
+          <StackPanel Margin="24,0,32,24">
+            <TextBlock Text="{DynamicResource Set.NavTheme}" Style="{StaticResource SetPageTitle}"/>
+            <TextBlock Text="{DynamicResource Set.ThemePageDesc}" Style="{StaticResource SetRowDesc}" FontSize="13" Margin="0,8,0,16"/>
+
+            <Border Style="{StaticResource SetRow}">
+              <StackPanel>
+                <TextBlock Text="{DynamicResource Set.Appearance}" Style="{StaticResource SetRowTitle}"/>
+                <Grid x:Name="ThemeCards" Margin="0,14,0,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                  </Grid.ColumnDefinitions>
+                  <RadioButton x:Name="ThemeLightCard" Style="{StaticResource SetThemeCard}" Tag="light" Checked="Theme_Checked">
+                    <StackPanel>
+                      <TextBlock Text="&#xE706;" Style="{StaticResource SetThemeIcon}"/>
+                      <TextBlock Text="{DynamicResource Set.ThemeLight}" Style="{StaticResource SetThemeText}"/>
+                    </StackPanel>
+                  </RadioButton>
+                  <RadioButton x:Name="ThemeDarkCard" Grid.Column="2" Style="{StaticResource SetThemeCard}" Tag="dark" Checked="Theme_Checked">
+                    <StackPanel>
+                      <TextBlock Text="&#xE708;" Style="{StaticResource SetThemeIcon}"/>
+                      <TextBlock Text="{DynamicResource Set.ThemeDark}" Style="{StaticResource SetThemeText}"/>
+                    </StackPanel>
+                  </RadioButton>
+                  <RadioButton x:Name="ThemeSystemCard" Grid.Column="4" Style="{StaticResource SetThemeCard}" Tag="system" Checked="Theme_Checked">
+                    <StackPanel>
+                      <TextBlock Text="&#xE7F4;" Style="{StaticResource SetThemeIcon}"/>
+                      <TextBlock Text="{DynamicResource Set.ThemeSystem}" Style="{StaticResource SetThemeText}"/>
+                    </StackPanel>
+                  </RadioButton>
+                </Grid>
+              </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource SetRow}">
+              <StackPanel>
+                <TextBlock Text="{DynamicResource Set.Accent}" Style="{StaticResource SetRowTitle}"/>
+                <TextBlock Text="{DynamicResource Set.AccentDesc}" Style="{StaticResource SetRowDesc}"/>
+                <Grid Margin="0,14,0,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
+                  </Grid.ColumnDefinitions>
+                  <!-- 色样预览用固定色值：三张卡需要同时显示各自的强调色，不能跟随当前主题 -->
+                  <RadioButton x:Name="AccentZhushaCard" Style="{StaticResource SetSkinCard}" Tag="zhusha" Checked="Accent_Checked">
+                    <StackPanel>
+                      <Border Height="46" CornerRadius="3" Background="#FCFBF7" BorderBrush="#E2DFD8" BorderThickness="1" SnapsToDevicePixels="True">
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="34"/>
+                            <ColumnDefinition Width="*"/>
+                          </Grid.ColumnDefinitions>
+                          <Border Grid.Column="0" Background="#F4F3EF" CornerRadius="3,0,0,3"/>
+                          <StackPanel Grid.Column="1" Margin="10,0" VerticalAlignment="Center">
+                            <Border Height="7" Width="44" CornerRadius="2" Background="#A6402E" HorizontalAlignment="Left"/>
+                            <Border Height="4" Width="70" CornerRadius="2" Background="#E2DFD8" HorizontalAlignment="Left" Margin="0,6,0,0"/>
+                            <Border Height="4" Width="42" CornerRadius="2" Background="#EDEBE4" HorizontalAlignment="Left" Margin="0,4,0,0"/>
+                          </StackPanel>
+                        </Grid>
+                      </Border>
+                      <TextBlock Text="{DynamicResource Set.AccentZhusha}" Style="{StaticResource SetThemeText}"/>
+                      <TextBlock Text="{DynamicResource Set.AccentZhushaDesc}" Style="{StaticResource SetSkinDesc}"/>
+                    </StackPanel>
+                  </RadioButton>
+
+                  <RadioButton x:Name="AccentDianqingCard" Grid.Column="2" Style="{StaticResource SetSkinCard}" Tag="dianqing" Checked="Accent_Checked">
+                    <StackPanel>
+                      <Border Height="46" CornerRadius="3" Background="#FCFBF7" BorderBrush="#E2DFD8" BorderThickness="1" SnapsToDevicePixels="True">
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="34"/>
+                            <ColumnDefinition Width="*"/>
+                          </Grid.ColumnDefinitions>
+                          <Border Grid.Column="0" Background="#F4F3EF" CornerRadius="3,0,0,3"/>
+                          <StackPanel Grid.Column="1" Margin="10,0" VerticalAlignment="Center">
+                            <Border Height="7" Width="44" CornerRadius="2" Background="#2C4A73" HorizontalAlignment="Left"/>
+                            <Border Height="4" Width="70" CornerRadius="2" Background="#E2DFD8" HorizontalAlignment="Left" Margin="0,6,0,0"/>
+                            <Border Height="4" Width="42" CornerRadius="2" Background="#EDEBE4" HorizontalAlignment="Left" Margin="0,4,0,0"/>
+                          </StackPanel>
+                        </Grid>
+                      </Border>
+                      <TextBlock Text="{DynamicResource Set.AccentDianqing}" Style="{StaticResource SetThemeText}"/>
+                      <TextBlock Text="{DynamicResource Set.AccentDianqingDesc}" Style="{StaticResource SetSkinDesc}"/>
+                    </StackPanel>
+                  </RadioButton>
+
+                  <RadioButton x:Name="AccentSonglvCard" Grid.Column="4" Style="{StaticResource SetSkinCard}" Tag="songlv" Checked="Accent_Checked">
+                    <StackPanel>
+                      <Border Height="46" CornerRadius="3" Background="#FCFBF7" BorderBrush="#E2DFD8" BorderThickness="1" SnapsToDevicePixels="True">
+                        <Grid>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="34"/>
+                            <ColumnDefinition Width="*"/>
+                          </Grid.ColumnDefinitions>
+                          <Border Grid.Column="0" Background="#F4F3EF" CornerRadius="3,0,0,3"/>
+                          <StackPanel Grid.Column="1" Margin="10,0" VerticalAlignment="Center">
+                            <Border Height="7" Width="44" CornerRadius="2" Background="#3F6B4F" HorizontalAlignment="Left"/>
+                            <Border Height="4" Width="70" CornerRadius="2" Background="#E2DFD8" HorizontalAlignment="Left" Margin="0,6,0,0"/>
+                            <Border Height="4" Width="42" CornerRadius="2" Background="#EDEBE4" HorizontalAlignment="Left" Margin="0,4,0,0"/>
+                          </StackPanel>
+                        </Grid>
+                      </Border>
+                      <TextBlock Text="{DynamicResource Set.AccentSonglv}" Style="{StaticResource SetThemeText}"/>
+                      <TextBlock Text="{DynamicResource Set.AccentSonglvDesc}" Style="{StaticResource SetSkinDesc}"/>
+                    </StackPanel>
+                  </RadioButton>
+                </Grid>
+              </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource SetRow}">
+              <Grid Tag="pair">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,16,0">
+                  <TextBlock Text="{DynamicResource Set.BodyFont}" Style="{StaticResource SetRowTitle}"/>
+                  <TextBlock Text="{DynamicResource Set.BodyFontDesc}" Style="{StaticResource SetRowDesc}"/>
+                </StackPanel>
+                <ComboBox x:Name="BodyFontCombo" Grid.Column="1" Style="{StaticResource SetFieldCombo}" SelectionChanged="BodyFont_Changed">
+                  <ComboBoxItem Content="{DynamicResource Set.BodyFontSimSun}" Tag="Cambria, SimSun, 宋体"/>
+                  <ComboBoxItem Content="{DynamicResource Set.BodyFontKaiTi}" Tag="Cambria, KaiTi, 楷体"/>
+                  <ComboBoxItem Content="{DynamicResource Set.BodyFontDengXian}" Tag="Segoe UI, DengXian, 等线"/>
+                  <ComboBoxItem Content="{DynamicResource Set.BodyFontFangSong}" Tag="Cambria, FangSong, 仿宋"/>
+                </ComboBox>
+              </Grid>
+            </Border>
+
+            <Border BorderBrush="{DynamicResource SetLineBrush}" BorderThickness="0,1,0,0" Padding="0,14,0,0" Margin="0,4,0,0">
+              <TextBlock Text="{DynamicResource Set.ThemeModeHint}" Style="{StaticResource SetRowDesc}" Margin="0"/>
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+
+        <!-- model page -->
+        <ScrollViewer x:Name="ModelPage" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed">
+          <StackPanel Margin="24,0,32,24">
+            <Grid>
+              <TextBlock Text="{DynamicResource Set.NavModel}" Style="{StaticResource SetPageTitle}"/>
+              <Button Content="{DynamicResource Set.AddModel}" Style="{StaticResource SetDarkButton}" HorizontalAlignment="Right"
+                      Click="AddModel_Click"/>
+            </Grid>
+            <TextBlock Text="{DynamicResource Set.ModelDesc}" Style="{StaticResource SetRowDesc}" FontSize="13" Margin="0,8,0,18"/>
+
+            <Border Style="{StaticResource SetRow}">
+              <Grid Tag="pair">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,16,0">
+                  <TextBlock Text="{DynamicResource Set.DefaultProvider}" Style="{StaticResource SetRowTitle}"/>
+                  <TextBlock x:Name="DefaultProviderDesc" Style="{StaticResource SetRowDesc}"/>
+                </StackPanel>
+                <ComboBox x:Name="DefaultProviderCombo" Grid.Column="1" Style="{StaticResource SetCombo}" Width="220"
+                          MaxDropDownHeight="420" SelectionChanged="DefaultProvider_Changed"/>
+              </Grid>
+            </Border>
+
+            <Border x:Name="ProjectRow" Style="{StaticResource SetRow}">
+              <Grid Tag="pair">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,16,0">
+                  <TextBlock x:Name="ProjectProviderTitle" Text="{DynamicResource Set.ProjectProvider}" Style="{StaticResource SetRowTitle}"/>
+                  <TextBlock x:Name="ProjectProviderDesc" Style="{StaticResource SetRowDesc}"/>
+                </StackPanel>
+                <ComboBox x:Name="ProjectProviderCombo" Grid.Column="1" Style="{StaticResource SetCombo}" Width="220"
+                          MaxDropDownHeight="420" SelectionChanged="ProjectProvider_Changed"/>
+              </Grid>
+            </Border>
+
+            <StackPanel x:Name="ProviderList"/>
+            <TextBlock x:Name="ProvidersEmpty" Text="{DynamicResource Set.ModelsEmpty}" Style="{StaticResource SetRowDesc}"
+                       FontSize="13" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,40,0,40" Visibility="Collapsed"/>
+            <TextBlock Text="{DynamicResource Set.KeyLocalOnly}" Style="{StaticResource SetRowDesc}" Margin="2,4,0,0"/>
+
+            <Border Style="{StaticResource SetRow}" Margin="0,18,0,0">
+              <Grid Tag="pair">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,16,0">
+                  <TextBlock Text="{DynamicResource Set.Offline}" Style="{StaticResource SetRowTitle}"/>
+                  <TextBlock Text="{DynamicResource Set.OfflineDesc}" Style="{StaticResource SetRowDesc}"/>
+                </StackPanel>
+                <ToggleButton x:Name="OfflineToggle" Grid.Column="1" Style="{StaticResource SetSwitch}" VerticalAlignment="Center"
+                              Checked="Offline_Changed" Unchecked="Offline_Changed"/>
+              </Grid>
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+
+        <!-- advanced hub; skills and plugins open from here -->
+        <ScrollViewer x:Name="AdvancedPage" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed">
+          <StackPanel Margin="24,0,32,24">
+            <TextBlock Text="{DynamicResource Set.NavAdvanced}" Style="{StaticResource SetPageTitle}"/>
+            <TextBlock Text="{DynamicResource Set.AdvancedDesc}" Style="{StaticResource SetRowDesc}" FontSize="13" Margin="0,8,0,18"/>
+            <Border Style="{StaticResource SetRow}">
+              <Grid Tag="pair">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,16,0">
+                  <TextBlock Text="{DynamicResource Set.NavSkills}" Style="{StaticResource SetRowTitle}"/>
+                  <TextBlock Text="{DynamicResource Set.SkillsDesc}" Style="{StaticResource SetRowDesc}"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="{DynamicResource Set.Open}" Style="{StaticResource SetButton}" VerticalAlignment="Center" Click="OpenSkills_Click"/>
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource SetRow}">
+              <Grid Tag="pair">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,16,0">
+                  <TextBlock Text="{DynamicResource Set.NavPlugins}" Style="{StaticResource SetRowTitle}"/>
+                  <TextBlock Text="{DynamicResource Set.PluginsDesc}" Style="{StaticResource SetRowDesc}"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="{DynamicResource Set.Open}" Style="{StaticResource SetButton}" VerticalAlignment="Center" Click="OpenPlugins_Click"/>
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource SetRow}">
+              <Grid Tag="pair">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,16,0">
+                  <TextBlock Text="{DynamicResource Set.OpenConfig}" Style="{StaticResource SetRowTitle}"/>
+                  <TextBlock Text="{DynamicResource Set.OpenConfigTip}" Style="{StaticResource SetRowDesc}"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="{DynamicResource Set.Open}" Style="{StaticResource SetButton}" VerticalAlignment="Center" Click="OpenConfig_Click"/>
+              </Grid>
+            </Border>
+          </StackPanel>
+        </ScrollViewer>
+
+        <!-- skills page -->
+        <ScrollViewer x:Name="SkillsPage" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed">
+          <StackPanel Margin="24,0,32,24">
+            <Grid>
+              <Button Content="{DynamicResource Set.Back}" Style="{StaticResource SetButton}" HorizontalAlignment="Left" Click="BackAdvanced_Click"/>
+              <TextBlock Text="{DynamicResource Set.NavSkills}" Style="{StaticResource SetPageTitle}" Margin="72,0,0,0"/>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="{DynamicResource Set.New}" Style="{StaticResource SetDarkButton}" Margin="0,0,8,0" Click="NewSkill_Click"/>
+                <Button Content="{DynamicResource Set.Discover}" Style="{StaticResource SetButton}" Margin="0,0,8,0" Click="DiscoverSkills_Click"/>
+                <Button Content="{DynamicResource Set.Import}" Style="{StaticResource SetButton}" Margin="0,0,8,0" Click="ImportSkill_Click"/>
+                <Button Content="{DynamicResource Set.OpenFolder}" Style="{StaticResource SetButton}" Click="OpenSkillsFolder_Click"/>
+              </StackPanel>
+            </Grid>
+            <TextBlock Text="{DynamicResource Set.SkillsDesc}" Style="{StaticResource SetRowDesc}" FontSize="13" Margin="0,8,0,18"/>
+            <StackPanel x:Name="SkillList"/>
+            <TextBlock x:Name="SkillsEmpty" Text="{DynamicResource Set.SkillsEmpty}" Style="{StaticResource SetRowDesc}"
+                       FontSize="13" HorizontalAlignment="Center" Margin="0,40,0,0" Visibility="Collapsed"/>
+          </StackPanel>
+        </ScrollViewer>
+
+        <!-- plugins page -->
+        <ScrollViewer x:Name="PluginsPage" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed">
+          <StackPanel Margin="24,0,32,24">
+            <Grid>
+              <Button Content="{DynamicResource Set.Back}" Style="{StaticResource SetButton}" HorizontalAlignment="Left" Click="BackAdvanced_Click"/>
+              <TextBlock Text="{DynamicResource Set.NavPlugins}" Style="{StaticResource SetPageTitle}" Margin="72,0,0,0"/>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="{DynamicResource Set.Import}" Style="{StaticResource SetDarkButton}" Margin="0,0,8,0" Click="ImportPlugin_Click"/>
+                <Button Content="{DynamicResource Set.OpenFolder}" Style="{StaticResource SetButton}" Click="OpenPluginsFolder_Click"/>
+              </StackPanel>
+            </Grid>
+            <TextBlock Text="{DynamicResource Set.PluginsDesc}" Style="{StaticResource SetRowDesc}" FontSize="13" Margin="0,8,0,18"/>
+            <StackPanel x:Name="PluginList"/>
+            <TextBlock x:Name="PluginsEmpty" Text="{DynamicResource Set.PluginsEmpty}" Style="{StaticResource SetRowDesc}"
+                       FontSize="13" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,40,0,0" Visibility="Collapsed"/>
+          </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel x:Name="PageError" Grid.Row="1" Orientation="Horizontal" Visibility="Collapsed" Margin="24,0,32,16">
+          <TextBlock x:Name="ErrorText" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+          <Button x:Name="RetryButton" Content="{DynamicResource Set.Retry}" Style="{StaticResource SetButton}" Margin="12,0,0,0"
+                  VerticalAlignment="Center" Click="Retry_Click"/>
+        </StackPanel>
+      </Grid>
+    </Grid>
+  </Border>
+</Window>

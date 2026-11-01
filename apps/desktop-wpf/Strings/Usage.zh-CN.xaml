@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <sys:String x:Key="Usage.Title">本次使用</sys:String>
+  <sys:String x:Key="Usage.Short">本次</sys:String>
+  <sys:String x:Key="Usage.Scope">本次打开以来 · 所有作品</sys:String>
+  <sys:String x:Key="Usage.Estimate">人民币费用估算</sys:String>
+  <sys:String x:Key="Usage.TotalTokens">总 Tokens</sys:String>
+  <sys:String x:Key="Usage.Input">输入</sys:String>
+  <sys:String x:Key="Usage.Output">输出</sys:String>
+  <sys:String x:Key="Usage.Cached">其中缓存命中</sys:String>
+  <sys:String x:Key="Usage.Last">最近一次调用</sys:String>
+  <sys:String x:Key="Usage.RateLabel">手动参考汇率（非实时，可修改）</sys:String>
+  <sys:String x:Key="Usage.Apply">应用</sys:String>
+  <sys:String x:Key="Usage.RateError">请输入 0.0001 至 1000 之间的有效汇率。</sys:String>
+  <sys:String x:Key="Usage.Footer">调用完成后更新 · 非平台账单</sys:String>
+  <sys:String x:Key="Usage.Tip">拖动可移动，点击看明细；Alt + 方向键可移动位置。</sys:String>
+  <sys:String x:Key="Usage.Reset">恢复用量气泡位置</sys:String>
+  <sys:String x:Key="Usage.Hide">隐藏用量气泡</sys:String>
+  <sys:String x:Key="Usage.Show">显示 API 用量气泡</sys:String>
+  <sys:String x:Key="Usage.Collapse">收起明细</sys:String>
+  <sys:String x:Key="Usage.Pending">待更新</sys:String>
+  <sys:String x:Key="Usage.Unknown">费用未知</sys:String>
+  <sys:String x:Key="Usage.Stale">未更新，正在重试；显示上次读取的数据。</sys:String>
+  <sys:String x:Key="Usage.Generating">正在生成，完成后更新用量。</sys:String>
+  <sys:String x:Key="Usage.GeneratingShort">生成中</sys:String>
+  <sys:String x:Key="Usage.UnknownCalls">另有 {0} 次调用价格未知，金额仅含已知费用。</sys:String>
+  <sys:String x:Key="Usage.Loading">正在读取本次用量…</sys:String>
+  <sys:String x:Key="Usage.Empty">本次尚无模型调用。</sys:String>
+  <sys:String x:Key="Usage.NoCalls">本次尚无调用</sys:String>
+  <sys:String x:Key="Usage.Generate">正文续写</sys:String>
+  <sys:String x:Key="Usage.Plan">章节规划</sys:String>
+  <sys:String x:Key="Usage.Audit">检查与审校</sys:String>
+  <sys:String x:Key="Usage.Extract">摘要提取</sys:String>
+  <sys:String x:Key="Usage.Call">模型调用</sys:String>
+</ResourceDictionary>

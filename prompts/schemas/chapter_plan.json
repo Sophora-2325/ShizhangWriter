@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ChapterPlan",
+  "type": "object",
+  "required": ["scene_goal", "conflict", "stakes", "target_word_count"],
+  "properties": {
+    "scene_goal": { "type": "string" },
+    "conflict": { "type": "string" },
+    "stakes": { "type": "string" },
+    "present_character_ids": { "type": "array", "items": { "type": "string" } },
+    "required_threads": { "type": "array", "items": { "type": "string" } },
+    "must_include": { "type": "array", "items": { "type": "string" } },
+    "must_not": { "type": "array", "items": { "type": "string" } },
+    "target_word_count": { "type": "integer" },
+    "open_decision_for_user": { "type": ["string", "null"] }
+  }
+}

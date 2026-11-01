@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- 校样台 · 朱砂（深） · 只覆盖强调派生键，其余由 Themes/Dark.xaml 提供 -->
+  <SolidColorBrush x:Key="AccentBrush" Color="#D0725C"/>
+  <SolidColorBrush x:Key="AccentHoverBrush" Color="#DF8570"/>
+  <SolidColorBrush x:Key="AccentPressedBrush" Color="#B85B47"/>
+  <SolidColorBrush x:Key="SelectedBarBrush" Color="#D0725C"/>
+  <SolidColorBrush x:Key="SelectedBgBrush" Color="#3A2320"/>
+  <SolidColorBrush x:Key="SidebarSelectedBrush" Color="#3A2320"/>
+  <SolidColorBrush x:Key="InfoBgBrush" Color="#3A2320"/>
+  <SolidColorBrush x:Key="InfoBorderBrush" Color="#5A3A33"/>
+</ResourceDictionary>

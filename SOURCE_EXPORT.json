@@ -1,0 +1,39 @@
+{
+  "version": "0.3.21",
+  "date": "2026-11-01",
+  "file_count": 406,
+  "source_commit": "38d3c1814c3efa59dbf0ea0b699ddbd771073c67",
+  "excluded_generated_files": [
+    "apps/desktop/src-tauri/gen/schemas/acl-manifests.json",
+    "apps/desktop/src-tauri/gen/schemas/capabilities.json",
+    "apps/desktop/src-tauri/gen/schemas/desktop-schema.json",
+    "apps/desktop/src-tauri/gen/schemas/windows-schema.json",
+    "apps/web/tsconfig.tsbuildinfo"
+  ],
+  "omitted_history_screenshots": true,
+  "docs_with_history_images_removed": [
+    "docs/RELEASE_0.3.15.md",
+    "docs/UI_STYLE_GUIDE.md"
+  ],
+  "copy_adjustments": [
+    ".gitignore"
+  ],
+  "readme_sha256": "329973e7a1f673f09e0b807462b1d49d48ab506979a88a6f545b091f5ca5019f",
+  "license_sha256": "eb6cdcffbfb40d29ce8d0bfedd1cab2de07470261ad30ee58d208b128f378489",
+  "promo_sha256": "d30e50c8bad76295dac12752c171cf458c8acfffbdd0e9f804437e8ad0a5a28a",
+  "exact_dependency_lock": false,
+  "verification": {
+    "total_files": 408,
+    "total_bytes": 14437831,
+    "checksums_verified": 406,
+    "source_files_verified": 377,
+    "local_links_verified": 56,
+    "dependency_declarations_verified": 11,
+    "forbidden_files": 0,
+    "credential_pattern_candidates": 0,
+    "readme_identical": true,
+    "license_identical": true,
+    "promotional_video_identical": true,
+    "build_or_tests_run": false
+  }
+}

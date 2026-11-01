@@ -1,0 +1,73 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+  <!-- AI フローパネル（シェルが ja-JP.xaml にマージ） -->
+  <sys:String x:Key="Ai.Title">AIフロー</sys:String>
+
+  <sys:String x:Key="Ai.Step.Prev">前へ</sys:String>
+  <sys:String x:Key="Ai.Step.ShowPlan">本章の構成</sys:String>
+  <sys:String x:Key="Ai.Step.AiPlan">AI構成</sys:String>
+  <sys:String x:Key="Ai.Step.Generate">生成・続きを書く</sys:String>
+  <sys:String x:Key="Ai.Step.Finalize">確定</sys:String>
+  <sys:String x:Key="Ai.Step.Audit">整合性チェック</sys:String>
+  <sys:String x:Key="Ai.Step.PlanCheck">計画チェック</sys:String>
+  <sys:String x:Key="Ai.Step.Extract">要約を抽出</sys:String>
+  <sys:String x:Key="Ai.Step.Review">本章の講評</sys:String>
+  <sys:String x:Key="Ai.Step.Next">次へ</sys:String>
+
+
+  <sys:String x:Key="Ai.Busy.Progress">処理中…</sys:String>
+  <sys:String x:Key="Ai.ReadOnlyHint">この章は無効化されています。AI 操作は利用できません。閲覧のみ可能です。</sys:String>
+  <sys:String x:Key="Ai.Group.Create">執筆</sys:String>
+  <sys:String x:Key="Ai.Group.Check">確認と整理</sys:String>
+  <sys:String x:Key="Ai.Flow.Prepare">執筆の準備</sys:String>
+  <sys:String x:Key="Ai.Flow.Content">具体的な内容</sys:String>
+  <sys:String x:Key="Ai.Flow.Rhythm">展開の骨格</sys:String>
+  <sys:String x:Key="Ai.Flow.Optional">任意</sys:String>
+  <sys:String x:Key="Ai.Flow.Draft">採用待ちの草案あり</sys:String>
+  <sys:String x:Key="Ai.Flow.Check">確認と修正</sys:String>
+  <sys:String x:Key="Ai.Flow.PlanCheck">本章の検証</sys:String>
+  <sys:String x:Key="Ai.Flow.Finalize">本章を確定</sys:String>
+  <sys:String x:Key="Ai.Flow.RevisionSteps">意見を選択 · プレビュー · 採用</sys:String>
+  <sys:String x:Key="Ai.Flow.Invalidate">本文の変更後は再確認が必要です</sys:String>
+  <sys:String x:Key="Ai.Flow.Summary">要約：{0}</sys:String>
+  <sys:String x:Key="Ai.Flow.IssueCount">要確認：{0}件</sys:String>
+  <sys:String x:Key="Ai.State.pending">更新待ち</sys:String>
+  <sys:String x:Key="Ai.State.extracting">抽出中</sys:String>
+  <sys:String x:Key="Ai.State.ready">更新済み</sys:String>
+  <sys:String x:Key="Ai.State.failed">失敗・再試行</sys:String>
+  <sys:String x:Key="Ai.State.stale">結果が古くなっています</sys:String>
+  <sys:String x:Key="Ai.State.unchecked">未確認</sys:String>
+  <sys:String x:Key="Ai.State.semantic">意味の確認は未実施</sys:String>
+  <sys:String x:Key="Ai.State.passed">確認済み</sys:String>
+  <sys:String x:Key="Ai.Revision.Title">AI本文修正</sys:String>
+  <sys:String x:Key="Ai.Revision.Request">今回の修正要望</sys:String>
+  <sys:String x:Key="Ai.Revision.Import">本章の評注を取り込む</sys:String>
+  <sys:String x:Key="Ai.Revision.Issues">確認事項を手動で選択</sys:String>
+  <sys:String x:Key="Ai.Revision.Manual">今回の要望と選択した事項だけを処理します。プランは自動変更しません。</sys:String>
+  <sys:String x:Key="Ai.Revision.Preview">修正プレビュー</sys:String>
+  <sys:String x:Key="Ai.Revision.Before">原文</sys:String>
+  <sys:String x:Key="Ai.Revision.After">修正後</sys:String>
+  <sys:String x:Key="Ai.Revision.Generate">修正プレビューを生成</sys:String>
+  <sys:String x:Key="Ai.Revision.Apply">選択した修正を採用</sys:String>
+  <sys:String x:Key="Ai.Revision.Save">保存／再試行</sys:String>
+  <sys:String x:Key="Ai.Revision.Empty">要望を入力するか事項を選び、プレビューを生成してください。採用するまで本文は変わりません。</sys:String>
+  <sys:String x:Key="Ai.Revision.NoEdits">安全に適用できる部分修正はありません。要望を調整して再生成してください。</sys:String>
+  <sys:String x:Key="Ai.Revision.NoIssues">有効な確認事項はありません。修正要望を直接入力できます。</sys:String>
+  <sys:String x:Key="Ai.Revision.OldIssues">選択した事項の一部は古くなっています。解除して選び直してください。</sys:String>
+  <sys:String x:Key="Ai.Revision.ClearIssues">選択した事項を解除</sys:String>
+  <sys:String x:Key="Ai.Revision.Patch">部分修正</sys:String>
+  <sys:String x:Key="Ai.Revision.Selected">{0}件選択 · 本文は未変更</sys:String>
+  <sys:String x:Key="Ai.Revision.Stale">プレビューが古くなっています。再生成してください。</sys:String>
+  <sys:String x:Key="Ai.Revision.Final">修正の採用前に本章の確定を解除してください。</sys:String>
+  <sys:String x:Key="Ai.Revision.Unsaved">草稿の保存を待っています。</sys:String>
+  <sys:String x:Key="Ai.Revision.Invalid">位置または書式を安全に保持できません。原文は変更されていません。</sys:String>
+  <sys:String x:Key="Ai.Revision.Protected">見出し、挿絵、キャプション、未承認の変更を含むため自動置換できません。</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.protected">保護された内容を含みます</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.rich_invalid">書式付き文書を検証できません</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.paragraph">同一段落内の修正のみ対応</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.not_unique">原文の位置を一意に特定できません</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.unchanged">変更なし</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.overlap">修正範囲が重複しています</sys:String>
+</ResourceDictionary>

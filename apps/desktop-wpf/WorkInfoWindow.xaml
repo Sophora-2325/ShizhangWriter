@@ -1,0 +1,80 @@
+<Window x:Class="NovelGm.Desktop.WorkInfoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{DynamicResource WorkInfo.Title}" Width="800" Height="760" MinWidth="620" MinHeight="480"
+        Background="{DynamicResource BgBrush}" Foreground="{DynamicResource TextBrush}"
+        WindowStartupLocation="CenterOwner" Closing="Window_Closing">
+  <DockPanel Margin="22">
+    <StackPanel DockPanel.Dock="Bottom" Margin="0,14,0,0">
+      <TextBlock x:Name="StatusText" TextWrapping="Wrap" Foreground="{DynamicResource MutedBrush}" Margin="0,0,0,8"/>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <Button x:Name="CloseButton" Content="{DynamicResource Common.Close}" MinWidth="84" Click="Close_Click"/>
+        <Button x:Name="SaveButton" Content="{DynamicResource WorkInfo.Save}" MinWidth="120" Margin="8,0,0,0"
+                Style="{DynamicResource PrimaryButton}" Click="Save_Click"/>
+      </StackPanel>
+    </StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,8,0">
+      <StackPanel x:Name="ContentPanel">
+        <Grid>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="180"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+          <StackPanel Margin="0,0,20,0">
+            <Border Width="156" Height="208" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1"
+                    Background="{DynamicResource SidebarBrush}" HorizontalAlignment="Left">
+              <Grid>
+                <Image x:Name="CoverImage" Stretch="Uniform" Margin="6"/>
+                <TextBlock x:Name="CoverPlaceholder" Text="{DynamicResource WorkInfo.NoCover}" TextWrapping="Wrap"
+                           Foreground="{DynamicResource MutedBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="14"/>
+              </Grid>
+            </Border>
+            <Button x:Name="PickCoverButton" Content="{DynamicResource WorkInfo.PickCover}" Margin="0,10,0,0" Click="PickCover_Click"/>
+            <Button x:Name="RemoveCoverButton" Content="{DynamicResource WorkInfo.RemoveCover}" Margin="0,6,0,0" Click="RemoveCover_Click"/>
+            <TextBlock x:Name="CoverHint" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource MutedBrush}" Margin="0,8,0,0"/>
+          </StackPanel>
+          <StackPanel Grid.Column="1">
+            <DockPanel>
+              <Button x:Name="RenameButton" DockPanel.Dock="Right" Content="{DynamicResource WorkInfo.Rename}" Margin="10,0,0,0" Click="Rename_Click"/>
+              <TextBlock x:Name="BookTitle" FontSize="22" FontWeight="SemiBold" TextWrapping="Wrap" VerticalAlignment="Center"/>
+            </DockPanel>
+            <TextBlock Text="{DynamicResource WorkInfo.PositionHint}" Foreground="{DynamicResource MutedBrush}"
+                       FontSize="12" TextWrapping="Wrap" Margin="0,12,0,12"/>
+            <Label Content="{DynamicResource WorkInfo.Genre}" Target="{Binding ElementName=GenreBox}" Padding="0,4"/>
+            <TextBox x:Name="GenreBox" TextWrapping="Wrap" MinHeight="30"/>
+            <Label Content="{DynamicResource WorkInfo.Tone}" Target="{Binding ElementName=ToneBox}" Padding="0,10,0,4"/>
+            <TextBox x:Name="ToneBox" TextWrapping="Wrap" MinHeight="30"/>
+            <Label Content="{DynamicResource WorkInfo.Audience}" Target="{Binding ElementName=AudienceBox}" Padding="0,10,0,4"/>
+            <TextBox x:Name="AudienceBox" TextWrapping="Wrap" MinHeight="30"/>
+          </StackPanel>
+        </Grid>
+        <TextBlock Text="{DynamicResource WorkInfo.Overview}" FontSize="15" FontWeight="SemiBold" Margin="0,22,0,8"/>
+        <TextBlock x:Name="StatsText" TextWrapping="Wrap"/>
+        <TextBlock Text="{DynamicResource WorkInfo.Chapters}" FontSize="15" FontWeight="SemiBold" Margin="0,20,0,8"/>
+        <TextBlock x:Name="EmptyChapters" Text="{DynamicResource WorkInfo.NoChapters}" Foreground="{DynamicResource MutedBrush}" Margin="0,4,0,8"/>
+        <DataGrid x:Name="ChapterGrid" Height="190" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False"
+                  CanUserDeleteRows="False" CanUserReorderColumns="False" HeadersVisibility="Column" GridLinesVisibility="None"
+                  Background="{DynamicResource BgBrush}" RowBackground="{DynamicResource BgBrush}" Foreground="{DynamicResource TextBrush}"
+                  BorderBrush="{DynamicResource BorderBrushKey}" HorizontalScrollBarVisibility="Auto">
+          <DataGrid.ColumnHeaderStyle>
+            <Style TargetType="DataGridColumnHeader">
+              <Setter Property="Background" Value="{DynamicResource SidebarBrush}"/>
+              <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+              <Setter Property="Padding" Value="8"/>
+            </Style>
+          </DataGrid.ColumnHeaderStyle>
+          <DataGrid.CellStyle>
+            <Style TargetType="DataGridCell"><Setter Property="Padding" Value="8,5"/><Setter Property="BorderThickness" Value="0"/></Style>
+          </DataGrid.CellStyle>
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="{DynamicResource WorkInfo.ChapterName}" Binding="{Binding Name}" Width="*" MinWidth="200"/>
+            <DataGridTextColumn Header="{DynamicResource WorkInfo.ChapterState}" Binding="{Binding State}" Width="110"/>
+            <DataGridTextColumn Header="{DynamicResource WorkInfo.Words}" Binding="{Binding Words}" Width="90"/>
+          </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Text="{DynamicResource WorkInfo.Location}" FontSize="15" FontWeight="SemiBold" Margin="0,20,0,8"/>
+        <DockPanel>
+          <Button x:Name="FolderButton" DockPanel.Dock="Right" Content="{DynamicResource Menu.OpenFolder}" Click="Folder_Click" Margin="10,0,0,0"/>
+          <TextBox x:Name="FolderText" IsReadOnly="True" TextWrapping="Wrap" BorderThickness="0" Background="Transparent"/>
+        </DockPanel>
+      </StackPanel>
+    </ScrollViewer>
+  </DockPanel>
+</Window>

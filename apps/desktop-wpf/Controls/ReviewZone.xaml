@@ -1,0 +1,21 @@
+<UserControl x:Class="NovelGm.Desktop.Controls.ReviewZone"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <DockPanel Margin="12,10,12,12">
+    <!-- 标题与「提交评注」同处一行，整组居中。提交按钮与「下一步」是同一条付费路径。 -->
+    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,8">
+      <TextBlock Text="{DynamicResource Review.Title}" FontWeight="Bold" FontSize="15" VerticalAlignment="Center"
+                 FontFamily="{DynamicResource BodyFontFamily}"
+                 Foreground="{DynamicResource TextBrush}"/>
+      <Button x:Name="SubmitButton" Content="{DynamicResource Review.Submit}" Margin="10,0,0,0" Padding="12,2"
+              MinHeight="26" VerticalAlignment="Center" Click="Submit_Click"
+              ToolTip="{DynamicResource Review.SubmitTip}"/>
+    </StackPanel>
+    <Grid>
+      <TextBox x:Name="NotesBox" TextWrapping="Wrap" AcceptsReturn="True" VerticalContentAlignment="Top"
+               VerticalScrollBarVisibility="Auto" TextChanged="Box_Changed"/>
+      <TextBlock Text="{DynamicResource Review.NotesHint}" Style="{StaticResource BoxPlaceholder}"
+                 Tag="{Binding Text, ElementName=NotesBox}"/>
+    </Grid>
+  </DockPanel>
+</UserControl>

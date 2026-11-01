@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <sys:String x:Key="Usage.Title">Session usage</sys:String>
+  <sys:String x:Key="Usage.Short">Session</sys:String>
+  <sys:String x:Key="Usage.Scope">Since launch · all works</sys:String>
+  <sys:String x:Key="Usage.Estimate">Estimated cost in CNY</sys:String>
+  <sys:String x:Key="Usage.TotalTokens">Total tokens</sys:String>
+  <sys:String x:Key="Usage.Input">Input</sys:String>
+  <sys:String x:Key="Usage.Output">Output</sys:String>
+  <sys:String x:Key="Usage.Cached">Cached input (included)</sys:String>
+  <sys:String x:Key="Usage.Last">Latest call</sys:String>
+  <sys:String x:Key="Usage.RateLabel">Manual reference exchange rate (not live)</sys:String>
+  <sys:String x:Key="Usage.Apply">Apply</sys:String>
+  <sys:String x:Key="Usage.RateError">Enter a valid rate from 0.0001 to 1000.</sys:String>
+  <sys:String x:Key="Usage.Footer">Updated after each call · not a provider bill</sys:String>
+  <sys:String x:Key="Usage.Tip">Drag to move; click for details. Alt + arrow keys also move the bubble.</sys:String>
+  <sys:String x:Key="Usage.Reset">Reset usage bubble position</sys:String>
+  <sys:String x:Key="Usage.Hide">Hide usage bubble</sys:String>
+  <sys:String x:Key="Usage.Show">Show API usage bubble</sys:String>
+  <sys:String x:Key="Usage.Collapse">Collapse details</sys:String>
+  <sys:String x:Key="Usage.Pending">Pending</sys:String>
+  <sys:String x:Key="Usage.Unknown">Cost unknown</sys:String>
+  <sys:String x:Key="Usage.Stale">Not updated. Retrying; showing the last successful read.</sys:String>
+  <sys:String x:Key="Usage.Generating">Generating; usage updates when complete.</sys:String>
+  <sys:String x:Key="Usage.GeneratingShort">Running</sys:String>
+  <sys:String x:Key="Usage.UnknownCalls">{0} calls have unknown prices; only known costs are included.</sys:String>
+  <sys:String x:Key="Usage.Loading">Reading session usage…</sys:String>
+  <sys:String x:Key="Usage.Empty">No model calls in this session.</sys:String>
+  <sys:String x:Key="Usage.NoCalls">No calls this session</sys:String>
+  <sys:String x:Key="Usage.Generate">Continue writing</sys:String>
+  <sys:String x:Key="Usage.Plan">Chapter planning</sys:String>
+  <sys:String x:Key="Usage.Audit">Review and checks</sys:String>
+  <sys:String x:Key="Usage.Extract">Summary extraction</sys:String>
+  <sys:String x:Key="Usage.Call">Model call</sys:String>
+</ResourceDictionary>

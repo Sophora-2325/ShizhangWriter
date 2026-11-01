@@ -1,0 +1,168 @@
+<Window x:Class="NovelGm.Desktop.CharacterEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{DynamicResource Char.Title}" Height="680" Width="428"
+        MinHeight="540" MinWidth="420" Background="{DynamicResource BgBrush}" Foreground="{DynamicResource TextBrush}"
+        WindowStartupLocation="CenterOwner" ResizeMode="CanResize">
+  <Window.Resources>
+    <Style x:Key="CardSection" TargetType="Button">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushKey}"/>
+      <Setter Property="BorderThickness" Value="0,1,0,0"/>
+      <Setter Property="Padding" Value="12,6"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+      <Setter Property="Template"><Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="Surface" Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                  Padding="{TemplateBinding Padding}">
+            <Border x:Name="FocusBorder" BorderBrush="Transparent" BorderThickness="1">
+              <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Surface" Property="Background" Value="{DynamicResource SidebarHoverBrush}"/>
+            </Trigger>
+            <Trigger Property="Tag" Value="active">
+              <Setter TargetName="Surface" Property="Background" Value="{DynamicResource SidebarSelectedBrush}"/>
+              <Setter Property="FontWeight" Value="SemiBold"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocused" Value="True">
+              <Setter TargetName="FocusBorder" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.4"/></Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value></Setter>
+    </Style>
+  </Window.Resources>
+  <DockPanel Margin="14">
+    <StackPanel DockPanel.Dock="Bottom" Margin="0,10,0,0">
+      <TextBlock x:Name="ErrorText" Visibility="Collapsed" TextWrapping="Wrap"
+                 Foreground="{DynamicResource DangerBrush}" Margin="0,0,0,6"/>
+      <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+          <Button x:Name="CancelButton" Content="{DynamicResource Common.Cancel}" Width="76" Click="Cancel_Click"/>
+          <Button x:Name="SaveButton" Content="{DynamicResource Common.Save}" Width="76" Margin="8,0,0,0"
+                  Style="{DynamicResource PrimaryButton}" Click="Save_Click"/>
+        </StackPanel>
+        <TextBlock Text="{DynamicResource Char.NameOnly}" FontSize="12" TextWrapping="Wrap"
+                   VerticalAlignment="Center" Margin="0,0,10,0" Foreground="{DynamicResource TextBrush}" Opacity="0.7"/>
+      </DockPanel>
+    </StackPanel>
+
+    <ScrollViewer x:Name="RootScroll" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+      <Grid x:Name="ColumnsGrid" HorizontalAlignment="Left" MinHeight="540"
+            Height="{Binding ViewportHeight, ElementName=RootScroll}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="384"/>
+          <ColumnDefinition Width="0"/>
+          <ColumnDefinition Width="0"/>
+        </Grid.ColumnDefinitions>
+        <Border x:Name="FirstPanel" Grid.Column="0" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="4.2*"/><RowDefinition Height="3.1*"/><RowDefinition Height="2.7*"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="IdentityHeader" Margin="16">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="128"/><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+              <Border x:Name="PortraitFrame" Width="128" Height="192" VerticalAlignment="Center"
+                      BorderThickness="1" BorderBrush="{DynamicResource BorderBrushKey}"
+                      Background="{DynamicResource Bg2Brush}" ToolTip="{Binding Text, ElementName=PortraitHint}">
+                <Grid>
+                  <TextBlock x:Name="PortraitEmpty" Text="{DynamicResource Common.None}" HorizontalAlignment="Center"
+                             VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}" Opacity="0.7"/>
+                  <Border x:Name="PortraitPreview"/>
+                </Grid>
+              </Border>
+              <Grid x:Name="IdentityFields" Grid.Column="2" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="44"/><RowDefinition Height="44"/>
+                  <RowDefinition Height="44"/><RowDefinition Height="42"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="48"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                <Label Content="{DynamicResource Field.Name}" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
+                <TextBox x:Name="NameBox" Grid.Column="1" VerticalAlignment="Center" Padding="6,3"
+                         AutomationProperties.Name="{DynamicResource Field.Name}"/>
+                <Label Grid.Row="1" Content="{DynamicResource Field.Age}" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
+                <TextBox x:Name="AgeBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Padding="6,3"
+                         AutomationProperties.Name="{DynamicResource Field.Age}"/>
+                <Label Grid.Row="2" Content="{DynamicResource Field.Gender}" Padding="0" VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}"/>
+                <TextBox x:Name="GenderBox" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Padding="6,3"
+                         AutomationProperties.Name="{DynamicResource Field.Gender}"/>
+                <UniformGrid Grid.Row="3" Grid.ColumnSpan="2" Columns="2" VerticalAlignment="Center">
+                  <Button x:Name="PickPortraitButton" Content="{DynamicResource Char.PickImage}" Padding="4,6"
+                          ToolTip="{Binding Text, ElementName=PortraitHint}" ToolTipService.ShowOnDisabled="True" Click="PickPortrait_Click"/>
+                  <Button x:Name="ClearPortraitButton" Content="{DynamicResource Char.ClearImage}" Padding="4,6"
+                          Style="{DynamicResource QuietButton}" Click="ClearPortrait_Click"/>
+                </UniformGrid>
+              </Grid>
+              <TextBlock x:Name="PortraitHint" Visibility="Collapsed" Text="{DynamicResource Char.PortraitHint}"/>
+            </Grid>
+
+            <UniformGrid Grid.Row="1" Columns="2">
+              <Button x:Name="PersonalityButton" Style="{StaticResource CardSection}" Content="{DynamicResource Field.Personality}"
+                      BorderThickness="0,1,1,0" Click="Personality_Click"/>
+              <Button x:Name="AppearanceButton" Style="{StaticResource CardSection}" Content="{DynamicResource Field.Appearance}" Click="Appearance_Click"/>
+              <Button x:Name="OutfitButton" Style="{StaticResource CardSection}" Content="{DynamicResource Field.Outfit}"
+                      BorderThickness="0,1,1,0" Click="Outfit_Click"/>
+              <Button x:Name="HobbiesButton" Style="{StaticResource CardSection}" Content="{DynamicResource Field.Hobbies}" Click="Hobbies_Click"/>
+              <Button x:Name="VoiceButton" Style="{StaticResource CardSection}" Content="{DynamicResource Char.Voice}"
+                      BorderThickness="0,1,1,0" Click="Voice_Click"/>
+              <Button x:Name="SecretButton" Style="{StaticResource CardSection}" Content="{DynamicResource Char.Secret}" Click="Secret_Click"/>
+            </UniformGrid>
+            <UniformGrid Grid.Row="2" Columns="1" Rows="4">
+              <Button x:Name="RoleButton" Style="{StaticResource CardSection}" Content="{DynamicResource Char.Role}" Click="Role_Click"/>
+              <Button x:Name="GoalsButton" Style="{StaticResource CardSection}" Content="{DynamicResource Char.Goals}" Click="Goals_Click"/>
+              <Button x:Name="MiscButton" Style="{StaticResource CardSection}" Content="{DynamicResource Char.Misc}" Click="Misc_Click"/>
+              <Button x:Name="ActionButton" Style="{StaticResource CardSection}" Content="{DynamicResource Char.Action}" Click="Action_Click"/>
+            </UniformGrid>
+          </Grid>
+        </Border>
+
+        <Grid x:Name="SecondPanel" Grid.Column="1" Visibility="Collapsed">
+          <Border BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="0,1,1,1" IsHitTestVisible="False"/>
+          <DockPanel x:Name="FieldEditorPanel" Margin="16">
+            <TextBlock x:Name="FieldTitle" DockPanel.Dock="Top" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,12" Foreground="{DynamicResource TextBrush}"/>
+            <TextBlock x:Name="FieldHint" DockPanel.Dock="Top" FontSize="12" TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextBrush}" Opacity="0.7" Margin="0,0,0,8" Visibility="Collapsed"/>
+            <TextBox x:Name="FieldEditor" AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top"
+                     VerticalScrollBarVisibility="Auto" AutomationProperties.Name="{Binding Text, ElementName=FieldTitle}"/>
+          </DockPanel>
+          <Grid x:Name="MiscMenuPanel" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="1.1*"/><RowDefinition Height="1.2*"/><RowDefinition Height="1.1*"/>
+              <RowDefinition Height="1.6*"/><RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="JoinReasonButton" Grid.Row="0" Style="{StaticResource CardSection}" BorderThickness="0"
+                    Content="{DynamicResource Char.Join}" Click="JoinReason_Click"/>
+            <Button x:Name="RelationsButton" Grid.Row="1" Style="{StaticResource CardSection}" Content="{DynamicResource Char.Relations}" Click="Relations_Click"/>
+            <Button x:Name="OrganizationButton" Grid.Row="2" Style="{StaticResource CardSection}" Content="{DynamicResource Field.Organization}" Click="Organization_Click"/>
+            <Button x:Name="ThinkingHabitsButton" Grid.Row="3" Style="{StaticResource CardSection}" Content="{DynamicResource Field.ThinkingHabits}" Click="ThinkingHabits_Click"/>
+            <Button x:Name="OtherNotesButton" Grid.Row="4" Style="{StaticResource CardSection}" FontSize="22"
+                    Content="{DynamicResource Char.Other}" Click="OtherNotes_Click"/>
+          </Grid>
+        </Grid>
+
+        <Border x:Name="ThirdPanel" Grid.Column="2" BorderBrush="{DynamicResource BorderBrushKey}"
+                BorderThickness="0,1,1,1" Visibility="Collapsed" Padding="16">
+          <DockPanel>
+            <TextBlock x:Name="MiscFieldTitle" DockPanel.Dock="Top" FontWeight="SemiBold" FontSize="16" Margin="0,0,0,12" Foreground="{DynamicResource TextBrush}"/>
+            <TextBlock x:Name="MiscFieldHint" DockPanel.Dock="Top" FontSize="12" TextWrapping="Wrap"
+                       Foreground="{DynamicResource TextBrush}" Opacity="0.7" Margin="0,0,0,8" Visibility="Collapsed"/>
+            <TextBox x:Name="MiscFieldEditor" AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top"
+                     VerticalScrollBarVisibility="Auto" AutomationProperties.Name="{Binding Text, ElementName=MiscFieldTitle}"/>
+          </DockPanel>
+        </Border>
+      </Grid>
+    </ScrollViewer>
+  </DockPanel>
+</Window>

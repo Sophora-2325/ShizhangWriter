@@ -1,0 +1,8 @@
+{
+  "name": "basic_plan_extract",
+  "description": "黄金测试：计划与摘要 schema 可解析",
+  "expect": {
+    "plan_keys": ["scene_goal", "conflict", "stakes", "target_word_count"],
+    "summary_keys": ["one_line", "beats"]
+  }
+}

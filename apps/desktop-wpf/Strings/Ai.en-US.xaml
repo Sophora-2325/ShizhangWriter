@@ -1,0 +1,73 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+  <!-- AI workflow panel (merged into en-US.xaml by the shell) -->
+  <sys:String x:Key="Ai.Title">AI workflow</sys:String>
+
+  <sys:String x:Key="Ai.Step.Prev">Previous</sys:String>
+  <sys:String x:Key="Ai.Step.ShowPlan">Chapter plan</sys:String>
+  <sys:String x:Key="Ai.Step.AiPlan">AI plan</sys:String>
+  <sys:String x:Key="Ai.Step.Generate">Generate / continue</sys:String>
+  <sys:String x:Key="Ai.Step.Finalize">Finalize</sys:String>
+  <sys:String x:Key="Ai.Step.Audit">Consistency audit</sys:String>
+  <sys:String x:Key="Ai.Step.PlanCheck">Plan check</sys:String>
+  <sys:String x:Key="Ai.Step.Extract">Extract summary</sys:String>
+  <sys:String x:Key="Ai.Step.Review">Chapter review</sys:String>
+  <sys:String x:Key="Ai.Step.Next">Next</sys:String>
+
+
+  <sys:String x:Key="Ai.Busy.Progress">Working…</sys:String>
+  <sys:String x:Key="Ai.ReadOnlyHint">This chapter is superseded. AI actions are unavailable; viewing is still allowed.</sys:String>
+  <sys:String x:Key="Ai.Group.Create">Write</sys:String>
+  <sys:String x:Key="Ai.Group.Check">Check and organize</sys:String>
+  <sys:String x:Key="Ai.Flow.Prepare">Writing preparation</sys:String>
+  <sys:String x:Key="Ai.Flow.Content">Concrete content</sys:String>
+  <sys:String x:Key="Ai.Flow.Rhythm">Rhythm structure</sys:String>
+  <sys:String x:Key="Ai.Flow.Optional">Optional</sys:String>
+  <sys:String x:Key="Ai.Flow.Draft">Draft awaiting adoption</sys:String>
+  <sys:String x:Key="Ai.Flow.Check">Checks and revision</sys:String>
+  <sys:String x:Key="Ai.Flow.PlanCheck">Plan check</sys:String>
+  <sys:String x:Key="Ai.Flow.Finalize">Finalize chapter</sys:String>
+  <sys:String x:Key="Ai.Flow.RevisionSteps">Select feedback · Preview · Apply</sys:String>
+  <sys:String x:Key="Ai.Flow.Invalidate">Body edits require fresh checks</sys:String>
+  <sys:String x:Key="Ai.Flow.Summary">Summary: {0}</sys:String>
+  <sys:String x:Key="Ai.Flow.IssueCount">{0} issues</sys:String>
+  <sys:String x:Key="Ai.State.pending">Pending</sys:String>
+  <sys:String x:Key="Ai.State.extracting">Extracting</sys:String>
+  <sys:String x:Key="Ai.State.ready">Current</sys:String>
+  <sys:String x:Key="Ai.State.failed">Failed; retry</sys:String>
+  <sys:String x:Key="Ai.State.stale">Out of date</sys:String>
+  <sys:String x:Key="Ai.State.unchecked">Not checked</sys:String>
+  <sys:String x:Key="Ai.State.semantic">Semantic check pending</sys:String>
+  <sys:String x:Key="Ai.State.passed">Passed</sys:String>
+  <sys:String x:Key="Ai.Revision.Title">AI body revision</sys:String>
+  <sys:String x:Key="Ai.Revision.Request">Revision instructions</sys:String>
+  <sys:String x:Key="Ai.Revision.Import">Import chapter annotations</sys:String>
+  <sys:String x:Key="Ai.Revision.Issues">Selected check issues</sys:String>
+  <sys:String x:Key="Ai.Revision.Manual">Only your instructions and selected issues are used. Plans stay unchanged.</sys:String>
+  <sys:String x:Key="Ai.Revision.Preview">Revision preview</sys:String>
+  <sys:String x:Key="Ai.Revision.Before">Original</sys:String>
+  <sys:String x:Key="Ai.Revision.After">Revised</sys:String>
+  <sys:String x:Key="Ai.Revision.Generate">Generate preview</sys:String>
+  <sys:String x:Key="Ai.Revision.Apply">Apply selected edits</sys:String>
+  <sys:String x:Key="Ai.Revision.Save">Save / Retry</sys:String>
+  <sys:String x:Key="Ai.Revision.Empty">Enter instructions or select issues to preview. The body changes only after Apply.</sys:String>
+  <sys:String x:Key="Ai.Revision.NoEdits">No safe local edits were found. Adjust the instructions and generate again.</sys:String>
+  <sys:String x:Key="Ai.Revision.NoIssues">No current check issues. You can enter revision instructions directly.</sys:String>
+  <sys:String x:Key="Ai.Revision.OldIssues">Some selected issues are outdated. Clear them and select again.</sys:String>
+  <sys:String x:Key="Ai.Revision.ClearIssues">Clear selected issues</sys:String>
+  <sys:String x:Key="Ai.Revision.Patch">Local edit</sys:String>
+  <sys:String x:Key="Ai.Revision.Selected">{0} selected · Body unchanged</sys:String>
+  <sys:String x:Key="Ai.Revision.Stale">Preview is outdated. Generate again.</sys:String>
+  <sys:String x:Key="Ai.Revision.Final">Unfinalize the chapter before applying edits.</sys:String>
+  <sys:String x:Key="Ai.Revision.Unsaved">Draft waiting to save.</sys:String>
+  <sys:String x:Key="Ai.Revision.Invalid">Cannot safely locate the edit or preserve formatting. Original retained.</sys:String>
+  <sys:String x:Key="Ai.Revision.Protected">This range contains protected content and cannot be replaced automatically.</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.protected">Contains protected content</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.rich_invalid">Rich document cannot be verified</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.paragraph">Only edits within one paragraph are supported</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.not_unique">Original text cannot be uniquely located</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.unchanged">No change</sys:String>
+  <sys:String x:Key="Ai.Revision.Unavailable.overlap">Edits overlap</sys:String>
+</ResourceDictionary>

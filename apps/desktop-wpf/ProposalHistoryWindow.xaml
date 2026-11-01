@@ -1,0 +1,34 @@
+<Window x:Class="NovelGm.Desktop.ProposalHistoryWindow"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Title="{DynamicResource Proposal.History}" Width="920" Height="650" MinWidth="580" MinHeight="460"
+ WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Closing="Window_Closing">
+ <DockPanel Margin="16">
+  <TextBlock x:Name="Heading" DockPanel.Dock="Top" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,12"/>
+  <StackPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
+   <TextBlock x:Name="Status" TextWrapping="Wrap" Foreground="{DynamicResource MutedBrush}" Margin="0,0,0,8"/>
+   <WrapPanel>
+    <Button x:Name="RestoreButton" Content="{DynamicResource Proposal.Restore}" Style="{DynamicResource PrimaryButton}" Click="Restore_Click"/>
+    <Button x:Name="DeleteButton" Content="{DynamicResource Proposal.DeleteHistory}" Click="Delete_Click"/>
+    <Button Content="{DynamicResource Proposal.Refresh}" Click="Refresh_Click"/>
+    <Button Content="{DynamicResource Common.Close}" Click="Close_Click"/>
+   </WrapPanel>
+  </StackPanel>
+  <Grid>
+   <Grid.ColumnDefinitions><ColumnDefinition Width="2*" MinWidth="180"/><ColumnDefinition Width="10"/><ColumnDefinition Width="3*" MinWidth="220"/></Grid.ColumnDefinitions>
+   <Border Style="{DynamicResource LoreBox}">
+    <ListBox x:Name="Records" SelectionChanged="Records_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+     <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="HorizontalContentAlignment" Value="Stretch"/><Setter Property="Padding" Value="8,10"/></Style></ListBox.ItemContainerStyle>
+     <ListBox.ItemTemplate><DataTemplate><StackPanel>
+      <TextBlock Text="{Binding Display}" TextWrapping="Wrap"/>
+      <TextBlock Text="{Binding Metadata}" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource MutedBrush}" Margin="0,4,0,0"/>
+     </StackPanel></DataTemplate></ListBox.ItemTemplate>
+    </ListBox>
+   </Border>
+   <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" Background="{DynamicResource BorderBrushKey}"/>
+   <Border Grid.Column="2" Style="{DynamicResource LoreBox}">
+    <TextBox x:Name="Preview" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" BorderThickness="0" Padding="12"/>
+   </Border>
+  </Grid>
+ </DockPanel>
+</Window>

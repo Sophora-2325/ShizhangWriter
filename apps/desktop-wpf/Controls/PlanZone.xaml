@@ -1,0 +1,124 @@
+<UserControl x:Class="NovelGm.Desktop.Controls.PlanZone"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Foreground="{DynamicResource TextBrush}" Background="{DynamicResource BgBrush}" PreviewKeyDown="Plan_PreviewKeyDown">
+ <UserControl.Resources>
+  <Style x:Key="PlanSection" TargetType="Button">
+   <Setter Property="Background" Value="Transparent"/><Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+   <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushKey}"/><Setter Property="BorderThickness" Value="0,1,0,0"/>
+   <Setter Property="FontSize" Value="18"/><Setter Property="Padding" Value="12,8"/><Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+    <Border x:Name="Surface" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+     <Border x:Name="Focus" BorderThickness="1" BorderBrush="Transparent"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+    </Border>
+    <ControlTemplate.Triggers>
+     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="{DynamicResource SidebarHoverBrush}"/></Trigger>
+     <Trigger Property="Tag" Value="active"><Setter TargetName="Surface" Property="Background" Value="{DynamicResource SidebarSelectedBrush}"/><Setter Property="FontWeight" Value="SemiBold"/></Trigger>
+     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Focus" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/></Trigger>
+    </ControlTemplate.Triggers>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+  <Style x:Key="PlanEditor" TargetType="TextBox">
+   <Setter Property="TextWrapping" Value="Wrap"/><Setter Property="AcceptsReturn" Value="True"/><Setter Property="AcceptsTab" Value="True"/>
+   <Setter Property="VerticalScrollBarVisibility" Value="Auto"/><Setter Property="VerticalContentAlignment" Value="Top"/>
+   <Setter Property="FontSize" Value="15"/><Setter Property="Padding" Value="14"/><Setter Property="BorderThickness" Value="0"/>
+   <Setter Property="Background" Value="Transparent"/><Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+   <Setter Property="CaretBrush" Value="{DynamicResource TextBrush}"/>
+  </Style>
+  <Style x:Key="PlanAction" TargetType="Button" BasedOn="{StaticResource PlanSection}">
+   <Setter Property="FontSize" Value="14"/><Setter Property="MinHeight" Value="32"/>
+   <Setter Property="Background" Value="{DynamicResource Bg3Brush}"/><Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="MinWidth" Value="72"/><Setter Property="Padding" Value="12,6"/><Setter Property="Margin" Value="4,0"/>
+   <Style.Triggers><Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.45"/></Trigger></Style.Triggers>
+  </Style>
+ </UserControl.Resources>
+ <DockPanel Margin="16,12">
+  <Border x:Name="ReadOnlyBanner" DockPanel.Dock="Top" Visibility="Collapsed" Padding="10,6" Margin="0,0,0,8"
+   Background="{DynamicResource InfoBgBrush}" BorderBrush="{DynamicResource InfoBorderBrush}" BorderThickness="1" CornerRadius="3">
+   <TextBlock x:Name="ReadOnlyText" TextWrapping="Wrap"/>
+  </Border>
+  <WrapPanel DockPanel.Dock="Bottom" Margin="0,12,0,0">
+   <Button x:Name="ProposalButton" Content="{DynamicResource Plan.AiPlan}" ToolTip="{DynamicResource Proposal.Empty}" Click="Proposal_Click"/>
+  </WrapPanel>
+  <Grid x:Name="BodyGrid" SizeChanged="BodyGrid_SizeChanged">
+   <Grid.ColumnDefinitions><ColumnDefinition x:Name="MenuColumn" Width="*"/><ColumnDefinition x:Name="DetailColumn" Width="0"/></Grid.ColumnDefinitions>
+   <ScrollViewer x:Name="MenuScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Border x:Name="MenuPanel" MinHeight="520" Height="{Binding ViewportHeight, ElementName=MenuScroll}" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1">
+     <Grid>
+      <Grid.RowDefinitions><RowDefinition Height="1.5*"/><RowDefinition Height="1.2*"/><RowDefinition Height="1*"/><RowDefinition Height="0.8*"/><RowDefinition Height="0.8*"/><RowDefinition Height="1*"/></Grid.RowDefinitions>
+      <Button x:Name="FreeButton" Content="{DynamicResource Plan.PlotOutline}" Style="{StaticResource PlanSection}" BorderThickness="0" FontSize="28" Click="Free_Click"/>
+      <UniformGrid Grid.Row="1" Columns="2">
+       <Button x:Name="GoalButton" Content="{DynamicResource Plan.Core}" Style="{StaticResource PlanSection}" BorderThickness="0,1,1,0" Click="Goal_Click"/>
+       <Button x:Name="RulesButton" Content="{DynamicResource Plan.Rules}" Style="{StaticResource PlanSection}" Click="Rules_Click"/>
+      </UniformGrid>
+      <UniformGrid Grid.Row="2" Columns="2">
+       <Button x:Name="ConflictButton" Content="{DynamicResource Plan.ConflictPoint}" Style="{StaticResource PlanSection}" BorderThickness="0,1,1,0" Click="Conflict_Click"/>
+       <Button x:Name="StakesButton" Content="{DynamicResource Plan.Cost}" Style="{StaticResource PlanSection}" Click="Stakes_Click"/>
+      </UniformGrid>
+      <UniformGrid Grid.Row="3" Columns="3">
+       <Button x:Name="ScenesButton" Content="{DynamicResource Plan.ScenesShort}" Style="{StaticResource PlanSection}" BorderThickness="0,1,1,0" Click="Scenes_Click"/>
+       <Button x:Name="CharactersButton" Content="{DynamicResource Plan.CharactersShort}" Style="{StaticResource PlanSection}" BorderThickness="0,1,1,0" Click="Characters_Click"/>
+       <Button x:Name="ThreadsButton" Content="{DynamicResource Plan.ThreadsShort}" Style="{StaticResource PlanSection}" Click="Threads_Click"/>
+      </UniformGrid>
+      <UniformGrid Grid.Row="4" Columns="2">
+       <Button x:Name="LengthButton" Content="{DynamicResource Plan.Length}" Style="{StaticResource PlanSection}" BorderThickness="0,1,1,0" Click="Length_Click"/>
+       <Button x:Name="DecisionButton" Content="{DynamicResource Plan.OpenDecision}" Style="{StaticResource PlanSection}" Click="Decision_Click"/>
+      </UniformGrid>
+      <Button x:Name="MiscButton" Grid.Row="5" Content="{DynamicResource Plan.Misc}" Style="{StaticResource PlanSection}" Click="Misc_Click"/>
+     </Grid>
+    </Border>
+   </ScrollViewer>
+   <Border x:Name="DetailPanel" Grid.Column="1" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1" Visibility="Collapsed" SizeChanged="DetailPanel_SizeChanged">
+    <DockPanel>
+     <DockPanel DockPanel.Dock="Top" Margin="12,10,12,8">
+      <Button x:Name="BackButton" DockPanel.Dock="Left" Content="{DynamicResource Plan.Back}" Click="Back_Click" Visibility="Collapsed" Margin="0,0,8,0" Padding="8,4"/>
+      <TextBlock x:Name="DetailTitle" FontWeight="SemiBold" FontSize="16" VerticalAlignment="Center"/>
+     </DockPanel>
+     <StackPanel x:Name="DetailActions" DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Collapsed">
+      <Button x:Name="SaveSectionButton" Content="{DynamicResource Common.Save}" Style="{StaticResource PlanAction}" Click="SaveSection_Click"/>
+      <Button x:Name="CancelSectionButton" Content="{DynamicResource Common.Cancel}" Style="{StaticResource PlanAction}" Click="CancelSection_Click"/>
+     </StackPanel>
+     <Grid x:Name="Editors">
+      <TextBox x:Name="FreeBox" Style="{StaticResource PlanEditor}" Visibility="Collapsed" TextChanged="Field_Changed" AutomationProperties.Name="{DynamicResource Plan.PlotOutline}"/>
+      <TextBox x:Name="SceneGoalBox" Style="{StaticResource PlanEditor}" Visibility="Collapsed" TextChanged="Field_Changed" AutomationProperties.Name="{DynamicResource Plan.Core}"/>
+      <TextBox x:Name="ConflictBox" Style="{StaticResource PlanEditor}" Visibility="Collapsed" TextChanged="Field_Changed" AutomationProperties.Name="{DynamicResource Plan.ConflictPoint}"/>
+      <TextBox x:Name="StakesBox" Style="{StaticResource PlanEditor}" Visibility="Collapsed" TextChanged="Field_Changed" AutomationProperties.Name="{DynamicResource Plan.Cost}"/>
+      <TextBox x:Name="DecisionBox" Style="{StaticResource PlanEditor}" Visibility="Collapsed" TextChanged="Field_Changed" AutomationProperties.Name="{DynamicResource Plan.OpenDecision}"/>
+      <TextBox x:Name="MiscBox" Style="{StaticResource PlanEditor}" Visibility="Collapsed" TextChanged="Field_Changed" AutomationProperties.Name="{DynamicResource Plan.Misc}"/>
+      <Grid x:Name="RulesPanel" Visibility="Collapsed" Margin="12,0,12,12">
+       <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+       <DockPanel Margin="0,4,0,8">
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+         <Button x:Name="SaveIncludeButton" Content="{DynamicResource Common.Save}" Tag="include" Style="{StaticResource PlanAction}" Click="SaveSection_Click" GotKeyboardFocus="Rule_Focused"/>
+         <Button x:Name="CancelIncludeButton" Content="{DynamicResource Common.Cancel}" Tag="include" Style="{StaticResource PlanAction}" Click="CancelSection_Click" GotKeyboardFocus="Rule_Focused"/>
+        </StackPanel>
+        <TextBlock Text="{DynamicResource Plan.MustInclude}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+       </DockPanel>
+       <TextBox x:Name="MustIncludeBox" Grid.Row="1" Style="{StaticResource PlanEditor}" BorderThickness="1" BorderBrush="{DynamicResource BorderBrushKey}" TextChanged="Field_Changed" GotKeyboardFocus="Rule_Focused" AutomationProperties.Name="{DynamicResource Plan.MustInclude}"/>
+       <DockPanel Grid.Row="2" Margin="0,12,0,8">
+        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+         <Button x:Name="SaveExcludeButton" Content="{DynamicResource Common.Save}" Tag="exclude" Style="{StaticResource PlanAction}" Click="SaveSection_Click" GotKeyboardFocus="Rule_Focused"/>
+         <Button x:Name="CancelExcludeButton" Content="{DynamicResource Common.Cancel}" Tag="exclude" Style="{StaticResource PlanAction}" Click="CancelSection_Click" GotKeyboardFocus="Rule_Focused"/>
+        </StackPanel>
+        <TextBlock Text="{DynamicResource Plan.MustNot}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+       </DockPanel>
+       <TextBox x:Name="MustNotBox" Grid.Row="3" Style="{StaticResource PlanEditor}" BorderThickness="1" BorderBrush="{DynamicResource BorderBrushKey}" TextChanged="Field_Changed" GotKeyboardFocus="Rule_Focused" AutomationProperties.Name="{DynamicResource Plan.MustNot}"/>
+      </Grid>
+      <ScrollViewer x:Name="LengthPanel" Visibility="Collapsed" Margin="14,4" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel>
+       <TextBlock Text="{DynamicResource Plan.WordCount}" Margin="0,0,0,12"/>
+       <UniformGrid Columns="3" Margin="0,0,0,12">
+        <Button Content="2000" Tag="2000" Click="Preset_Click"/><Button Content="3000" Tag="3000" Click="Preset_Click"/><Button Content="5000" Tag="5000" Click="Preset_Click"/>
+       </UniformGrid>
+       <TextBox x:Name="WordCountBox" TextChanged="WordCount_Changed" PreviewTextInput="WordCount_PreviewTextInput" AutomationProperties.Name="{DynamicResource Plan.WordCount}"/>
+       <TextBlock x:Name="WordCountError" Text="{DynamicResource Plan.WordCountError}" Visibility="Collapsed" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+      </StackPanel></ScrollViewer>
+      <DockPanel x:Name="ListPanel" Visibility="Collapsed" Margin="12,0,12,12">
+       <Button x:Name="AddButton" DockPanel.Dock="Bottom" Click="Add_Click" Margin="0,12,0,0" Padding="14,8" HorizontalAlignment="Stretch"/>
+       <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><StackPanel x:Name="ItemsPanel"/></ScrollViewer>
+      </DockPanel>
+     </Grid>
+    </DockPanel>
+   </Border>
+  </Grid>
+ </DockPanel>
+</UserControl>

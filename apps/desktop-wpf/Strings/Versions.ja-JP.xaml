@@ -1,0 +1,31 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+  <sys:String x:Key="Versions.Title">版履歴</sys:String>
+  <sys:String x:Key="Versions.WindowTitle">{0} · 版履歴</sys:String>
+  <sys:String x:Key="Versions.Loading">読み込み中…</sys:String>
+  <sys:String x:Key="Versions.Empty">まだ版がありません</sys:String>
+  <sys:String x:Key="Versions.LoadFailed">版履歴の読み込みに失敗しました：{0}</sys:String>
+  <sys:String x:Key="Versions.PreviewFailed">版の読み込みに失敗しました：{0}</sys:String>
+  <sys:String x:Key="Versions.WordCount">{0} 文字</sys:String>
+  <sys:String x:Key="Versions.TextOnly">テキストのみ</sys:String>
+  <sys:String x:Key="Versions.Source.Original">原稿</sys:String>
+  <sys:String x:Key="Versions.Source.Autosave">自動保存</sys:String>
+  <sys:String x:Key="Versions.Source.Ai">AI 生成</sys:String>
+  <sys:String x:Key="Versions.Source.Finalize">確定済み</sys:String>
+  <sys:String x:Key="Versions.Source.RestoreBackup">復元前バックアップ</sys:String>
+  <sys:String x:Key="Versions.Source.Manual">手動保存</sys:String>
+  <sys:String x:Key="Versions.Source.LegacyText">旧テキスト</sys:String>
+  <sys:String x:Key="Versions.Source.Unknown">不明なソース</sys:String>
+  <sys:String x:Key="Versions.Restore">この版を復元</sys:String>
+  <sys:String x:Key="Versions.RestoreConfirm">復元すると現在の本文が上書きされます（復元前にバックアップを残します）。続行しますか？</sys:String>
+  <sys:String x:Key="Versions.RestoreFormatWarn">注意：この版には書式が保存されていません。復元するとテキストのみになります。</sys:String>
+  <sys:String x:Key="Versions.RestoreDone">この版を復元しました。</sys:String>
+  <sys:String x:Key="Versions.RestoreFailed">復元に失敗しました：{0}</sys:String>
+  <sys:String x:Key="Versions.ReadOnly">この章は無効化済みのため、閲覧のみで復元はできません。</sys:String>
+  <sys:String x:Key="Versions.FormatUnavailable">この版はテキストのみ保存されています。元の書式は復元できません。</sys:String>
+  <sys:String x:Key="Versions.PreviewTitle">プレビュー</sys:String>
+  <sys:String x:Key="Versions.NoSelection">左の版を選ぶと内容を表示します</sys:String>
+  <sys:String x:Key="Versions.PreviewEmpty">（この版には本文がありません）</sys:String>
+</ResourceDictionary>

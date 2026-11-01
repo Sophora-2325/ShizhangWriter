@@ -1,0 +1,42 @@
+<Window x:Class="NovelGm.Desktop.LoreEntryEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{DynamicResource Entry.TitleNew}" Width="676" Height="728"
+        MinWidth="572" MinHeight="546"
+        WindowStartupLocation="CenterOwner" ResizeMode="CanResize">
+  <DockPanel Margin="16">
+    <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+      <Button Content="{DynamicResource Common.Cancel}" Width="80" Click="Cancel_Click"/>
+      <Button Content="{DynamicResource Common.Save}" Width="80" Style="{StaticResource PrimaryButton}" Click="Save_Click"/>
+    </StackPanel>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*" MinHeight="160"/>
+      </Grid.RowDefinitions>
+      <Label Grid.Row="0" Content="{DynamicResource Entry.Category}"/>
+      <ComboBox x:Name="CategoryCombo" Grid.Row="1" SelectionChanged="Category_Changed">
+        <ComboBoxItem Content="{DynamicResource Lore.Category.world}" Tag="world"/>
+        <ComboBoxItem Content="{DynamicResource Lore.Category.geo}" Tag="geo"/>
+        <ComboBoxItem Content="{DynamicResource Lore.Category.faction}" Tag="faction"/>
+        <ComboBoxItem Content="{DynamicResource Lore.Category.rule}" Tag="rule"/>
+        <ComboBoxItem Content="{DynamicResource Lore.Category.history}" Tag="history"/>
+        <ComboBoxItem Content="{DynamicResource Lore.Category.item}" Tag="item"/>
+        <ComboBoxItem Content="{DynamicResource Lore.Category.other}" Tag="other"/>
+      </ComboBox>
+      <CheckBox x:Name="HardCheck" Grid.Row="2" Content="{DynamicResource Entry.Hard}" ToolTip="{DynamicResource Entry.HardHint}"
+                Visibility="Collapsed" Margin="0,8,0,0"/>
+      <Label Grid.Row="3" Content="{DynamicResource Entry.Title}" ToolTip="{DynamicResource Entry.TitleHint}"/>
+      <TextBox x:Name="TitleBox" Grid.Row="4"/>
+      <DockPanel Grid.Row="5" Margin="0,4,0,0" LastChildFill="True">
+        <Label DockPanel.Dock="Top" Content="{DynamicResource Entry.Content}"/>
+        <TextBox x:Name="ContentBox" TextWrapping="Wrap" AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top"/>
+      </DockPanel>
+    </Grid>
+  </DockPanel>
+</Window>

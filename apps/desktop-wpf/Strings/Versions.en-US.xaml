@@ -1,0 +1,31 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xml:space="preserve">
+  <sys:String x:Key="Versions.Title">Version history</sys:String>
+  <sys:String x:Key="Versions.WindowTitle">{0} · Version history</sys:String>
+  <sys:String x:Key="Versions.Loading">Loading…</sys:String>
+  <sys:String x:Key="Versions.Empty">No versions yet</sys:String>
+  <sys:String x:Key="Versions.LoadFailed">Failed to load versions: {0}</sys:String>
+  <sys:String x:Key="Versions.PreviewFailed">Failed to load this version: {0}</sys:String>
+  <sys:String x:Key="Versions.WordCount">{0} words</sys:String>
+  <sys:String x:Key="Versions.TextOnly">Text only</sys:String>
+  <sys:String x:Key="Versions.Source.Original">Original</sys:String>
+  <sys:String x:Key="Versions.Source.Autosave">Autosave</sys:String>
+  <sys:String x:Key="Versions.Source.Ai">AI generated</sys:String>
+  <sys:String x:Key="Versions.Source.Finalize">Finalized</sys:String>
+  <sys:String x:Key="Versions.Source.RestoreBackup">Pre-restore backup</sys:String>
+  <sys:String x:Key="Versions.Source.Manual">Manual save</sys:String>
+  <sys:String x:Key="Versions.Source.LegacyText">Legacy plain text</sys:String>
+  <sys:String x:Key="Versions.Source.Unknown">Unknown source</sys:String>
+  <sys:String x:Key="Versions.Restore">Restore this version</sys:String>
+  <sys:String x:Key="Versions.RestoreConfirm">Restoring will overwrite the current body (a backup is kept first). Continue?</sys:String>
+  <sys:String x:Key="Versions.RestoreFormatWarn">Note: this version has no formatting; restoring keeps plain text only.</sys:String>
+  <sys:String x:Key="Versions.RestoreDone">Version restored.</sys:String>
+  <sys:String x:Key="Versions.RestoreFailed">Restore failed: {0}</sys:String>
+  <sys:String x:Key="Versions.ReadOnly">This chapter is superseded; it can be viewed but not restored.</sys:String>
+  <sys:String x:Key="Versions.FormatUnavailable">This version stores plain text only; its original formatting cannot be restored.</sys:String>
+  <sys:String x:Key="Versions.PreviewTitle">Preview</sys:String>
+  <sys:String x:Key="Versions.NoSelection">Select a version on the left to preview it</sys:String>
+  <sys:String x:Key="Versions.PreviewEmpty">(This version has no body)</sys:String>
+</ResourceDictionary>

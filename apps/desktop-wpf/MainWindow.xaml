@@ -1,0 +1,544 @@
+<Window x:Class="NovelGm.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:m="clr-namespace:NovelGm.Desktop.Models"
+        xmlns:c="clr-namespace:NovelGm.Desktop.Controls"
+        Title="{DynamicResource App.Title}" Icon="Assets/novel-gm.ico" Height="860" Width="1380"
+        MinHeight="720" MinWidth="1120"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        Background="{DynamicResource PageBrush}"
+        Loaded="Window_Loaded" StateChanged="Window_StateChanged" Closing="Window_Closing">
+  <WindowChrome.WindowChrome>
+    <WindowChrome CaptionHeight="36" ResizeBorderThickness="6"
+                  GlassFrameThickness="0" CornerRadius="0" UseAeroCaptionButtons="False"/>
+  </WindowChrome.WindowChrome>
+  <Window.Resources>
+    <ContextMenu x:Key="WorkMenu" x:Shared="False">
+      <MenuItem Header="{DynamicResource Common.Open}" Style="{StaticResource HideWhenMissingItem}" Click="WorkOpen_Click"/>
+      <MenuItem Header="{DynamicResource Common.OpenSide}" Style="{StaticResource HideWhenMissingItem}" Click="WorkSide_Click"/>
+      <MenuItem Header="{DynamicResource Common.OpenBrowser}" Style="{StaticResource HideWhenMissingItem}" Click="WorkBrowser_Click"/>
+      <Separator Style="{StaticResource HideWhenMissingSeparator}"/>
+      <MenuItem Header="{DynamicResource Menu.NewChapter}" Style="{StaticResource HideWhenMissingItem}" Click="WorkNewChapter_Click"/>
+      <MenuItem Header="{DynamicResource Menu.ShowInExplorer}" Style="{StaticResource FolderOnlyItem}" Click="WorkExplorer_Click"/>
+      <MenuItem Header="{DynamicResource Menu.CopyPath}" Style="{StaticResource FolderOnlyItem}" Click="WorkCopyPath_Click"/>
+      <MenuItem Header="{DynamicResource Menu.WorkInfo}" Style="{StaticResource HideWhenMissingItem}" Click="WorkInfo_Click"/>
+      <MenuItem Header="{DynamicResource Menu.Export}" Style="{StaticResource HideWhenMissingItem}">
+        <MenuItem Header="Markdown" Tag="markdown" Click="WorkExport_Click"/>
+        <MenuItem Header="EPUB" Tag="epub" Click="WorkExport_Click"/>
+        <MenuItem Header="TXT" Tag="txt" Click="WorkExport_Click"/>
+        <MenuItem Header="Word (.docx)" Tag="docx" Click="WorkExport_Click"/>
+      </MenuItem>
+      <MenuItem Header="{DynamicResource Menu.Backup}" Style="{StaticResource FolderOnlyItem}" Click="WorkBackup_Click"/>
+      <Separator Style="{StaticResource HideWhenMissingSeparator}"/>
+      <MenuItem Header="{DynamicResource Common.Rename}" Style="{StaticResource HideWhenMissingItem}" InputGestureText="F2" Click="WorkRename_Click"/>
+      <MenuItem Header="{DynamicResource Menu.RemoveFromLibrary}" Click="WorkRemove_Click"/>
+      <MenuItem Header="{DynamicResource Menu.DeleteWork}" Style="{StaticResource HideWhenMissingItem}" Click="WorkDelete_Click"/>
+    </ContextMenu>
+    <ContextMenu x:Key="ChapterMenu" x:Shared="False">
+      <MenuItem Header="{DynamicResource Common.Open}" Click="ChapterOpen_Click"/>
+      <MenuItem Header="{DynamicResource Common.OpenSide}" Click="ChapterSide_Click"/>
+      <MenuItem Header="{DynamicResource Common.OpenBrowser}" Click="ChapterBrowser_Click"/>
+      <Separator/>
+      <MenuItem Header="{DynamicResource Menu.InsertChapter}" Style="{StaticResource HideWhenSupersededItem}" Click="ChapterInsert_Click"/>
+      <MenuItem Header="{DynamicResource Menu.LocateFile}" Click="ChapterExplorer_Click"/>
+      <MenuItem Header="{DynamicResource Menu.CopyText}" Click="ChapterCopyText_Click"/>
+      <MenuItem Header="{DynamicResource Menu.ExportChapter}" Click="ChapterExport_Click"/>
+      <Separator/>
+      <MenuItem Header="{DynamicResource Common.Rename}" InputGestureText="F2" Click="ChapterRename_Click"/>
+      <MenuItem Header="{DynamicResource Menu.ClearContent}" Click="ChapterClear_Click"/>
+      <MenuItem Header="{DynamicResource Menu.DeleteChapter}" InputGestureText="Delete" Click="ChapterDelete_Click"/>
+      <MenuItem Header="{DynamicResource Menu.Unfinalize}" Style="{StaticResource FinalOnlyItem}" Click="ChapterUnfinalize_Click"/>
+      <Separator/>
+      <MenuItem Header="{DynamicResource Menu.Rollback}" Click="ChapterRollback_Click"/>
+    </ContextMenu>
+    <Style x:Key="WorkItemWithMenu" TargetType="TreeViewItem" BasedOn="{StaticResource WorkTreeItem}">
+      <Setter Property="ContextMenu" Value="{StaticResource WorkMenu}"/>
+    </Style>
+    <Style x:Key="ChapterItemWithMenu" TargetType="TreeViewItem" BasedOn="{StaticResource ChapterTreeItem}">
+      <Setter Property="ContextMenu" Value="{StaticResource ChapterMenu}"/>
+    </Style>
+  </Window.Resources>
+  <Border x:Name="RootBorder" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+  <DockPanel Background="{DynamicResource PageBrush}">
+    <!-- Integrated title bar: doubles as the window caption -->
+    <Border DockPanel.Dock="Top" Height="36" Background="{DynamicResource BgBrush}"
+            BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="0,0,0,1">
+    <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="6,0,0,0">
+          <Image Source="Assets/novel-gm-256.png" Width="24" Height="24" Margin="2,0,2,0"
+                 Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+          <Menu x:Name="MainMenu" Style="{StaticResource TitleMenu}" VerticalAlignment="Center"
+                WindowChrome.IsHitTestVisibleInChrome="True">
+            <MenuItem Header="{DynamicResource Menu.File}" SubmenuOpened="FileMenu_SubmenuOpened">
+              <MenuItem x:Name="NewWorkMenu" Header="{DynamicResource Menu.NewWork}" InputGestureText="Ctrl+N"/>
+              <MenuItem x:Name="NewChapterMenu" Header="{DynamicResource Menu.NewChapter}" InputGestureText="Ctrl+Shift+N" IsEnabled="False"/>
+              <MenuItem Header="{DynamicResource Menu.OpenWork}" InputGestureText="Ctrl+O" Click="OpenProject_Click"/>
+              <MenuItem x:Name="RecentMenu" Header="{DynamicResource Menu.Recent}"/>
+              <Separator/>
+              <MenuItem x:Name="SaveMenu" Header="{DynamicResource Common.Save}" InputGestureText="Ctrl+S" IsEnabled="False"/>
+              <MenuItem x:Name="CloseWorkMenu" Header="{DynamicResource Menu.CloseWork}" IsEnabled="False"/>
+              <MenuItem x:Name="OpenFolderMenu" Header="{DynamicResource Menu.OpenFolder}" IsEnabled="False"/>
+              <Separator/>
+              <MenuItem x:Name="ImportMenu" Header="{DynamicResource Menu.Import}" IsEnabled="False"/>
+              <MenuItem x:Name="ExportMenu" Header="{DynamicResource Menu.ExportWork}" IsEnabled="False">
+                <MenuItem Header="Markdown" Tag="markdown" Click="ExportFile_Click"/>
+                <MenuItem Header="EPUB" Tag="epub" Click="ExportFile_Click"/>
+                <MenuItem Header="TXT" Tag="txt" Click="ExportFile_Click"/>
+                <MenuItem Header="Word" Tag="docx" Click="ExportFile_Click"/>
+              </MenuItem>
+              <MenuItem x:Name="BackupMenu" Header="{DynamicResource Menu.Backup}" IsEnabled="False"/>
+              <Separator/>
+              <MenuItem Header="{DynamicResource Menu.Exit}" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="EditMenu" Header="{DynamicResource Menu.Edit}" SubmenuOpened="EditMenu_SubmenuOpened">
+              <MenuItem x:Name="UndoItem" Header="{DynamicResource Edit.Undo}" Command="ApplicationCommands.Undo" InputGestureText="Ctrl+Z"/>
+              <MenuItem x:Name="RedoItem" Header="{DynamicResource Edit.Redo}" Command="ApplicationCommands.Redo" InputGestureText="Ctrl+Y"/>
+              <Separator/>
+              <MenuItem x:Name="CutItem" Header="{DynamicResource Edit.Cut}" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
+              <MenuItem x:Name="CopyItem" Header="{DynamicResource Edit.Copy}" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
+              <MenuItem x:Name="PasteItem" Header="{DynamicResource Edit.Paste}" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
+              <MenuItem x:Name="SelectAllItem" Header="{DynamicResource Edit.SelectAll}" Command="ApplicationCommands.SelectAll" InputGestureText="Ctrl+A"/>
+            </MenuItem>
+            <MenuItem Header="{DynamicResource Menu.View}" SubmenuOpened="ViewMenu_SubmenuOpened">
+              <MenuItem x:Name="PreviousChapterItem" Header="{DynamicResource Menu.PreviousChapter}" InputGestureText="Ctrl+PageUp"/>
+              <MenuItem x:Name="NextChapterItem" Header="{DynamicResource Menu.NextChapter}" InputGestureText="Ctrl+PageDown"/>
+              <Separator/>
+              <MenuItem x:Name="WorkLayoutMenu" Header="{DynamicResource Menu.WorkLayout}">
+                <MenuItem x:Name="ModePureItem" Header="{DynamicResource Mode.Pure}" IsCheckable="True" Click="ModePure_Click"/>
+                <MenuItem x:Name="ModeAssistItem" Header="{DynamicResource Mode.Assist}" IsCheckable="True" Click="ModeAssist_Click"/>
+              </MenuItem>
+              <MenuItem x:Name="FocusModeItem" Header="{DynamicResource Menu.FocusWriting}" IsCheckable="True" Click="FocusMode_Click"/>
+              <Separator/>
+              <MenuItem x:Name="ReadingModeItem" Header="{DynamicResource Read.Mode}" IsCheckable="True" IsEnabled="False" Click="ReadingMode_Click"/>
+              <MenuItem x:Name="BodyWidthMenu" Header="{DynamicResource Menu.BodyWidth}">
+                <MenuItem x:Name="PaperPaperItem" Header="{DynamicResource Menu.WidthPaper}" IsCheckable="True" Click="PaperPaper_Click"/>
+                <MenuItem x:Name="PaperFullItem" Header="{DynamicResource Menu.WidthFull}" IsCheckable="True" Click="PaperFull_Click"/>
+              </MenuItem>
+              <Separator/>
+              <MenuItem x:Name="UsageMenu" Header="{DynamicResource Menu.Usage}">
+                <MenuItem x:Name="UsageVisibleItem" Header="{DynamicResource Menu.UsageShow}" IsCheckable="True" Click="UsageVisible_Click"/>
+                <MenuItem Header="{DynamicResource Menu.UsageReset}" Click="UsageReset_Click"/>
+              </MenuItem>
+            </MenuItem>
+            <MenuItem x:Name="SettingsMenu" Header="{DynamicResource Menu.Settings}" InputGestureText="Ctrl+,"/>
+          </Menu>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+          <TextBlock x:Name="TitleProjectText" Text="{DynamicResource App.Title}" FontSize="14" MaxWidth="460"
+                     TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextBrush}"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+          <Button Style="{StaticResource TitleBarButton}" ToolTip="{DynamicResource Main.Minimize}"
+                  WindowChrome.IsHitTestVisibleInChrome="True" Click="Minimize_Click">
+            <Path Width="10" Height="10" Stretch="None" StrokeThickness="1" Data="M0,5.5 L10,5.5"
+                  Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+          </Button>
+          <Button x:Name="MaxRestoreButton" Style="{StaticResource TitleBarButton}" ToolTip="{DynamicResource Main.Maximize}"
+                  WindowChrome.IsHitTestVisibleInChrome="True" Click="MaxRestore_Click">
+            <Grid Width="10" Height="10">
+              <Path x:Name="MaxIcon" Stretch="None" StrokeThickness="1" Data="M0.5,0.5 H9.5 V9.5 H0.5 Z"
+                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+              <Path x:Name="RestoreIcon" Visibility="Collapsed" Stretch="None" StrokeThickness="1"
+                    Data="M2.5,2.5 V0.5 H9.5 V7.5 H7.5 M0.5,2.5 H7.5 V9.5 H0.5 Z"
+                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+            </Grid>
+          </Button>
+          <Button Style="{StaticResource TitleBarCloseButton}" ToolTip="{DynamicResource Main.Close}"
+                  WindowChrome.IsHitTestVisibleInChrome="True" Click="Close_Click">
+            <Path Width="10" Height="10" Stretch="None" StrokeThickness="1" Data="M0.5,0.5 L9.5,9.5 M9.5,0.5 L0.5,9.5"
+                  Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+          </Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <!-- Resizable three-pane workspace -->
+    <Grid x:Name="PaneGrid">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition x:Name="LeftRailColumn" Width="56"/>
+        <ColumnDefinition x:Name="LeftColumn" Width="240" MinWidth="200"/>
+        <ColumnDefinition x:Name="LeftSplitterColumn" Width="5"/>
+        <ColumnDefinition x:Name="CenterColumn" Width="*" MinWidth="420"/>
+        <ColumnDefinition x:Name="RightSplitterColumn" Width="5"/>
+        <ColumnDefinition x:Name="RightColumn" Width="300" MinWidth="240"/>
+        <ColumnDefinition x:Name="RailColumn" Width="Auto"/>
+      </Grid.ColumnDefinitions>
+
+      <!-- 左选项列：目录 / 笔记 / 查找。常驻；点当前项收起左面板。 -->
+      <Border x:Name="LeftRail" Grid.Column="0" Width="56" Background="{DynamicResource SidebarBrush}"
+              BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="0,0,1,0">
+        <StackPanel Margin="0,8,0,0" HorizontalAlignment="Center">
+          <Button x:Name="RailLibrary" Style="{StaticResource RailButton}" ToolTip="{DynamicResource Main.ToggleSidebar}"
+                  Click="RailLibrary_Click">
+            <StackPanel>
+              <Path Width="20" Height="20" Stretch="None" HorizontalAlignment="Center" StrokeThickness="1.4"
+                    StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                    Data="M1.5,3.5 L6,3.5 L7.5,5 L17,5 L17,15.5 L1.5,15.5 Z M1.5,8 L17,8"/>
+              <TextBlock Text="{DynamicResource Rail.Library}" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center"
+                         Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+            </StackPanel>
+          </Button>
+          <Button x:Name="RailNotes" Style="{StaticResource RailButton}" ToolTip="{DynamicResource Main.ToggleNotes}"
+                  Click="RailNotes_Click">
+            <StackPanel>
+              <Path Width="20" Height="20" Stretch="None" HorizontalAlignment="Center" StrokeThickness="1.4"
+                    StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                    Data="M3,4 L17,4 L17,13.5 L9.5,13.5 L5.5,17 L5.5,13.5 L3,13.5 Z M6,7.5 L14,7.5 M6,10.5 L11,10.5"/>
+              <TextBlock Text="{DynamicResource Rail.Notes}" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center"
+                         Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+            </StackPanel>
+          </Button>
+          <Button x:Name="RailFind" Style="{StaticResource RailButton}" ToolTip="{DynamicResource Main.ToggleFind}"
+                  Click="RailFind_Click">
+            <StackPanel>
+              <Path Width="20" Height="20" Stretch="None" HorizontalAlignment="Center" StrokeThickness="1.4"
+                    StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                    Data="M8.5,3 A5.5,5.5 0 1 0 8.5,14 A5.5,5.5 0 1 0 8.5,3 M12.6,12.6 L17,17"/>
+              <TextBlock Text="{DynamicResource Rail.Find}" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center"
+                         Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+            </StackPanel>
+          </Button>
+        </StackPanel>
+      </Border>
+
+      <!-- Left: 目录树 / 笔记 / 查找 三个宿主面板（左栏选项列切换） -->
+      <Border x:Name="LeftPane" Grid.Column="1" Background="{DynamicResource SidebarBrush}">
+        <Grid>
+          <DockPanel x:Name="WorkTreeHost" Margin="8,12,8,8">
+            <DockPanel DockPanel.Dock="Top" Margin="8,0,2,6">
+              <Button x:Name="NewWorkButton" DockPanel.Dock="Right" Style="{StaticResource SidebarIconButton}"
+                      ToolTip="{DynamicResource Main.NewWork}" Click="NewProject_Click">
+                <Path Width="16" Height="16" Stretch="None" Stroke="{DynamicResource MutedBrush}" StrokeThickness="1.3"
+                      StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                      Data="M1.5,3.5 L6,3.5 L7.5,5 L14.5,5 L14.5,13.5 L1.5,13.5 Z M10.5,7.5 L10.5,11.5 M8.5,9.5 L12.5,9.5"/>
+              </Button>
+              <TextBlock Text="{DynamicResource Main.Library}" VerticalAlignment="Center" Foreground="{DynamicResource MutedBrush}"/>
+            </DockPanel>
+            <TextBlock x:Name="EmptyWorksText" DockPanel.Dock="Top" Margin="8,8,8,0" TextWrapping="Wrap"
+                       Foreground="{DynamicResource MutedBrush}" FontSize="12"
+                       Text="{DynamicResource Main.NoWorks}"/>
+            <TreeView x:Name="WorkTree" Background="Transparent" BorderThickness="0" Padding="0"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ItemContainerStyle="{StaticResource WorkItemWithMenu}"
+                      SelectedItemChanged="WorkTree_SelectedItemChanged">
+              <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type m:WorkNode}" ItemsSource="{Binding Chapters}"
+                                          ItemContainerStyle="{StaticResource ChapterItemWithMenu}">
+                  <Grid Background="Transparent" ToolTip="{Binding ToolTipText}"
+                        MouseLeftButtonDown="WorkHeader_MouseLeftButtonDown">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto"/>
+                      <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Path x:Name="ClosedIcon" Width="16" Height="16" Stretch="None" VerticalAlignment="Center"
+                          Stroke="{DynamicResource MutedBrush}" StrokeThickness="1.3" StrokeLineJoin="Round"
+                          Data="M1.5,3.5 L6,3.5 L7.5,5 L14.5,5 L14.5,13.5 L1.5,13.5 Z"/>
+                    <Path x:Name="OpenIcon" Width="16" Height="16" Stretch="None" VerticalAlignment="Center" Visibility="Collapsed"
+                          Stroke="{DynamicResource MutedBrush}" StrokeThickness="1.3" StrokeLineJoin="Round"
+                          Data="M1.5,13.5 L1.5,3.5 L6,3.5 L7.5,5 L13,5 L13,7 M1.5,13.5 L4,7 L15.5,7 L13,13.5 Z"/>
+                    <TextBlock x:Name="TitleText" Grid.Column="1" Text="{Binding DisplayTitle}" Margin="8,0,0,0"
+                               VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                               Foreground="{DynamicResource TextBrush}"/>
+                  </Grid>
+                  <HierarchicalDataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+                      <Setter TargetName="ClosedIcon" Property="Visibility" Value="Collapsed"/>
+                      <Setter TargetName="OpenIcon" Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsCurrent}" Value="True">
+                      <Setter TargetName="TitleText" Property="FontWeight" Value="SemiBold"/>
+                      <Setter TargetName="TitleText" Property="Foreground" Value="{DynamicResource AccentBrush}"/>
+                      <Setter TargetName="ClosedIcon" Property="Stroke" Value="{DynamicResource AccentBrush}"/>
+                      <Setter TargetName="OpenIcon" Property="Stroke" Value="{DynamicResource AccentBrush}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsMissing}" Value="True">
+                      <Setter TargetName="TitleText" Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+                      <Setter TargetName="TitleText" Property="FontStyle" Value="Italic"/>
+                    </DataTrigger>
+                  </HierarchicalDataTemplate.Triggers>
+                </HierarchicalDataTemplate>
+                <DataTemplate DataType="{x:Type m:ChapterNode}">
+                  <Grid ToolTip="{Binding Display}">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding TitleText}" VerticalAlignment="Center"
+                               TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextBrush}"/>
+                    <!-- 定稿/被替代状态收成行尾 6px 标记，不再挤占标题；完整状态仍在 ToolTip 里 -->
+                    <Border x:Name="StatusDot" Grid.Column="1" Width="6" Height="6" CornerRadius="3"
+                            Margin="8,0,0,0" VerticalAlignment="Center" Background="Transparent"/>
+                  </Grid>
+                  <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsFinal}" Value="True">
+                      <Setter TargetName="StatusDot" Property="Background" Value="{DynamicResource OkBrush}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsSuperseded}" Value="True">
+                      <Setter TargetName="StatusDot" Property="Background" Value="{DynamicResource MutedBrush}"/>
+                      <Setter TargetName="StatusDot" Property="Opacity" Value="0.5"/>
+                    </DataTrigger>
+                  </DataTemplate.Triggers>
+                </DataTemplate>
+              </TreeView.Resources>
+            </TreeView>
+          </DockPanel>
+          <!-- 笔记面板与查找面板自带标题与内部滚动 -->
+          <c:NotesPanel x:Name="NotesPanelView" Visibility="Collapsed"/>
+          <c:FindPanel x:Name="FindPanelView" Visibility="Collapsed"/>
+        </Grid>
+      </Border>
+
+      <GridSplitter x:Name="LeftSplitter" Grid.Column="2" Style="{StaticResource PaneSplitter}" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"/>
+
+      <!-- Center: body, plus the optional read-only comparison pane on its right -->
+      <Grid Grid.Column="3">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition x:Name="MainColumn" Width="*" MinWidth="420"/>
+        <ColumnDefinition x:Name="SideSplitterColumn" Width="0"/>
+        <ColumnDefinition x:Name="SideColumn" Width="0"/>
+      </Grid.ColumnDefinitions>
+      <Border x:Name="CenterPane" Grid.Column="0" Style="{StaticResource FlushPanel}">
+        <DockPanel>
+          <c:FormatToolbar x:Name="FormatBar" DockPanel.Dock="Top"/>
+          <Border x:Name="ZoneToggleBar" DockPanel.Dock="Top" BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="0,0,0,1" Padding="12,6">
+            <Canvas x:Name="ZoneToggleRow" Height="28" SizeChanged="SyncZoneToggles">
+              <ToggleButton x:Name="PlanToggle" Style="{StaticResource ZoneToggle}" Content="{DynamicResource Zone.Plan}" Margin="0"
+                            Click="ZoneToggle_Click"/>
+              <ToggleButton x:Name="BodyToggle" Style="{StaticResource ZoneToggle}" Content="{DynamicResource Zone.Body}" Margin="0"
+                            Click="ZoneToggle_Click"/>
+              <ToggleButton x:Name="ReviewToggle" Style="{StaticResource ZoneToggle}" Content="{DynamicResource Zone.Review}" Margin="0"
+                            Click="ZoneToggle_Click"/>
+              <ToggleButton x:Name="AuditToggle" Style="{StaticResource ZoneToggle}" Content="{DynamicResource Zone.Audit}" Margin="0"
+                            Click="ZoneToggle_Click"/>
+            </Canvas>
+          </Border>
+
+          <Grid x:Name="ZoneGrid">
+            <TextBlock x:Name="NoZoneHint" Text="{DynamicResource Main.NoZoneHint}"
+                       Foreground="{DynamicResource MutedBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <Grid x:Name="PlanHost" Visibility="Collapsed" Background="Transparent">
+              <Border x:Name="PlanSlot">
+                <c:PlanZone x:Name="PlanZoneView"/>
+              </Border>
+              <Button Style="{StaticResource ZonePopOutButton}" ToolTip="{DynamicResource Common.PopOut}" Tag="plan" Click="PopOut_Click"/>
+            </Grid>
+
+            <Grid x:Name="BodyHost" Visibility="Collapsed" Background="Transparent">
+              <Border x:Name="BodySlot">
+                <!-- 正文铺满中间列，两侧只留小边距；收起目录区或设定区后自动按新宽度重排 -->
+                <Border x:Name="ReadingPaper" Background="Transparent" BorderBrush="{DynamicResource BorderBrushKey}"
+                        BorderThickness="0" CornerRadius="0" Padding="0" HorizontalAlignment="Center">
+                <Grid x:Name="BodyZoneView" Margin="24,8,38,8">
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                  </Grid.RowDefinitions>
+                  <RichTextBox x:Name="BodyEditor" Grid.Row="1" BorderThickness="0" Background="Transparent" Padding="0"
+                               FontFamily="{DynamicResource BodyFontFamily}" FontSize="17"
+                               TextOptions.TextFormattingMode="Ideal"
+                               Foreground="{DynamicResource TextBrush}"
+                               CaretBrush="{DynamicResource TextBrush}" SelectionBrush="{DynamicResource AccentBrush}"
+                               VerticalScrollBarVisibility="Auto" AcceptsTab="True" IsReadOnly="True"
+                               TextChanged="BodyEditor_TextChanged">
+                    <RichTextBox.Resources>
+                      <Style TargetType="Paragraph">
+                        <Setter Property="Margin" Value="0,0,0,8"/>
+                        <!-- 中文正文的排印：行距 1.9 倍字号、首行缩进 2 字 -->
+                        <Setter Property="LineHeight" Value="32.3"/>
+                        <Setter Property="TextIndent" Value="34"/>
+                      </Style>
+                    </RichTextBox.Resources>
+                  </RichTextBox>
+                  <!-- 字数在编写区外、正文列底部右侧 -->
+                  <Border x:Name="UsageClearance" Grid.Row="2" Height="64" IsHitTestVisible="False"/>
+                  <DockPanel Grid.Row="3" Margin="0,4,2,0" LastChildFill="False">
+                    <TextBlock x:Name="SaveStatusText" DockPanel.Dock="Left" FontSize="12" Visibility="Collapsed"
+                               ToolTip="{DynamicResource Save.StateTip}" TextTrimming="CharacterEllipsis"
+                               Foreground="{DynamicResource MutedBrush}"/>
+                    <TextBox x:Name="BodyWordCountText" DockPanel.Dock="Right" Style="{StaticResource SelectableText}"
+                             Margin="12,0,0,0" FontSize="12" ToolTip="{DynamicResource Main.WordCountTip}"
+                             Foreground="{DynamicResource MutedBrush}" TextWrapping="NoWrap"/>
+                  </DockPanel>
+                  <Expander x:Name="ConsistencyCard" Grid.Row="4" Header="{DynamicResource Main.Consistency}" Visibility="Collapsed" Margin="0,8,0,0">
+                    <ScrollViewer MaxHeight="180" VerticalScrollBarVisibility="Auto" Margin="0,4,0,0">
+                      <StackPanel x:Name="ConsistencyFlagsPanel"/>
+                    </ScrollViewer>
+                  </Expander>
+                </Grid>
+                </Border>
+              </Border>
+              <Button x:Name="BodyPopOutButton" Style="{StaticResource ZonePopOutButton}" ToolTip="{DynamicResource Common.PopOut}" Tag="body" Click="PopOut_Click"/>
+            </Grid>
+
+            <Grid x:Name="ReviewHost" Visibility="Collapsed" Background="Transparent">
+              <Border x:Name="ReviewSlot">
+                <c:ReviewZone x:Name="ReviewZoneView"/>
+              </Border>
+              <Button Style="{StaticResource ZonePopOutButton}" ToolTip="{DynamicResource Common.PopOut}" Tag="review" Click="PopOut_Click"/>
+            </Grid>
+
+            <Grid x:Name="AuditHost" Visibility="Collapsed" Background="Transparent">
+              <Border x:Name="AuditSlot">
+                <c:AuditZone x:Name="AuditZoneView"/>
+              </Border>
+              <Button Style="{StaticResource ZonePopOutButton}" ToolTip="{DynamicResource Common.PopOut}" Tag="audit" Click="PopOut_Click"/>
+            </Grid>
+          </Grid>
+        </DockPanel>
+      </Border>
+
+      <GridSplitter x:Name="SideSplitter" Grid.Column="1" Visibility="Collapsed" Style="{StaticResource PaneSplitter}"
+                    ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"/>
+
+      <!-- Side: read-only comparison -->
+      <Border x:Name="SidePane" Grid.Column="2" Visibility="Collapsed" Style="{StaticResource FlushPanel}">
+        <DockPanel>
+          <Border DockPanel.Dock="Top" Style="{StaticResource PanelHeader}">
+            <DockPanel>
+              <Button DockPanel.Dock="Right" Style="{StaticResource SidebarIconButton}" Width="24" Height="24"
+                      ToolTip="{DynamicResource Main.CloseCompare}" Click="CloseSide_Click">
+                <Path Width="10" Height="10" Stretch="None" StrokeThickness="1.2" Stroke="{DynamicResource MutedBrush}"
+                      Data="M0.5,0.5 L9.5,9.5 M9.5,0.5 L0.5,9.5"/>
+              </Button>
+              <TextBox x:Name="SideHeader" Style="{StaticResource SelectableText}" FontWeight="SemiBold" FontSize="15"
+                       TextWrapping="NoWrap" VerticalAlignment="Center"/>
+            </DockPanel>
+          </Border>
+          <TextBox x:Name="SideBody" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True"
+                   BorderThickness="0" Background="Transparent" Padding="4" Margin="18,10,18,14"
+                   FontSize="14" VerticalScrollBarVisibility="Auto" Foreground="{DynamicResource TextBrush}"/>
+        </DockPanel>
+      </Border>
+      </Grid>
+
+      <GridSplitter x:Name="RightSplitter" Grid.Column="4" Style="{StaticResource PaneSplitter}" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"/>
+
+      <!-- Right: settings / tools / AI workflow / reading review -->
+      <Border x:Name="RightPane" Grid.Column="5" Style="{StaticResource FlushPanel}">
+        <Grid>
+        <c:ToolsPanel x:Name="ToolsPanelView" Visibility="Collapsed"/>
+        <!-- AiPanel 自己画标题「AI全流程」，宿主不再加 PanelHeader -->
+        <c:AiPanel x:Name="AiPanelView" Visibility="Collapsed"/>
+        <c:ReadingView x:Name="ReaderView" Visibility="Collapsed"/>
+        <DockPanel x:Name="LorePanel">
+          <Border DockPanel.Dock="Top" Style="{StaticResource PanelHeader}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+              <TextBlock Text="{DynamicResource Lore.Title}" FontWeight="SemiBold" FontSize="17" HorizontalAlignment="Center"
+                         Foreground="{DynamicResource TextBrush}"/>
+            </StackPanel>
+          </Border>
+          <Border x:Name="LoreInheritBar" DockPanel.Dock="Top" Visibility="Collapsed" Padding="12,6"
+                  BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+              <TextBlock Text="{DynamicResource Lore.InheritFrom}" VerticalAlignment="Center" Foreground="{DynamicResource MutedBrush}"/>
+              <ComboBox x:Name="LoreFromBox" MinWidth="100" DisplayMemberPath="Label"/>
+              <Button x:Name="InheritLoreButton" Content="{DynamicResource Lore.Inherit}" Padding="12,2" MinHeight="28" Margin="6,0,0,0"
+                      ToolTip="{DynamicResource Lore.InheritTip}" Click="InheritLore_Click"/>
+            </StackPanel>
+          </Border>
+          <TabControl x:Name="LoreTabs" Style="{StaticResource EqualTabs}" Background="{DynamicResource BgBrush}" BorderThickness="0"
+                      SelectionChanged="LoreTabs_SelectionChanged">
+            <TabItem Header="{DynamicResource Lore.Characters}">
+              <DockPanel Margin="4,8,4,8">
+                <Button x:Name="AddCharacterButton" DockPanel.Dock="Bottom" Content="{DynamicResource Lore.AddCharacter}" HorizontalAlignment="Center"
+                        Margin="0,8,0,0" Style="{StaticResource PrimaryButton}" Click="AddCharacter_Click"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="4,4,4,0">
+                  <StackPanel x:Name="CharacterPanel"/>
+                </ScrollViewer>
+              </DockPanel>
+            </TabItem>
+            <TabItem Header="{DynamicResource Lore.Threads}">
+              <DockPanel Margin="4,8,4,8">
+                <Button x:Name="AddThreadButton" DockPanel.Dock="Bottom" Content="{DynamicResource Lore.AddThread}" HorizontalAlignment="Center"
+                        Margin="0,8,0,0" Style="{StaticResource PrimaryButton}" Click="AddThread_Click"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="4,4,4,0">
+                  <StackPanel x:Name="ThreadPanel"/>
+                </ScrollViewer>
+              </DockPanel>
+            </TabItem>
+            <TabItem Header="{DynamicResource Lore.Background}">
+              <DockPanel Margin="4,8,4,8">
+                <Button x:Name="AddEntryButton" DockPanel.Dock="Bottom" Content="{DynamicResource Lore.AddEntry}" HorizontalAlignment="Center"
+                        Margin="0,8,0,0" Style="{StaticResource PrimaryButton}" Click="AddEntry_Click"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="4,4,4,0">
+                  <StackPanel x:Name="EntryPanel"/>
+                </ScrollViewer>
+              </DockPanel>
+            </TabItem>
+            <TabItem Header="{DynamicResource Lore.Misc}">
+              <c:LoreMisc x:Name="LoreMiscView"/>
+            </TabItem>
+          </TabControl>
+        </DockPanel>
+        </Grid>
+      </Border>
+
+      <!-- 最右侧选项列：设定 / 功能 / AI / 审阅 共用右栏，点当前项收起 -->
+      <Border x:Name="OptionRail" Grid.Column="6" Width="56" Background="{DynamicResource SidebarBrush}"
+              BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1,0,0,0">
+        <StackPanel Margin="0,8,0,0" HorizontalAlignment="Center">
+          <Button x:Name="RailLore" Style="{StaticResource RailButton}" ToolTip="{DynamicResource Main.ToggleLore}"
+                  Click="RailLore_Click">
+            <StackPanel>
+              <Path Width="20" Height="20" Stretch="None" HorizontalAlignment="Center" StrokeThickness="1.4"
+                    StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                    Data="M4.5,2.5 L13,2.5 L16.5,6 L16.5,17.5 L4.5,17.5 Z M13,2.5 L13,6 L16.5,6 M7.5,9.5 L13.5,9.5 M7.5,12.5 L13.5,12.5 M7.5,15 L11,15"/>
+              <TextBlock Text="{DynamicResource Rail.Lore}" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center"
+                         Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+            </StackPanel>
+          </Button>
+          <Button x:Name="RailTools" Style="{StaticResource RailButton}" ToolTip="{DynamicResource Rail.Tools}"
+                  Click="RailTools_Click">
+            <StackPanel>
+              <Path Width="20" Height="20" Stretch="None" HorizontalAlignment="Center" StrokeThickness="1.4"
+                    StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                    Data="M3,3 L8.5,3 L8.5,8.5 L3,8.5 Z M11.5,3 L17,3 L17,8.5 L11.5,8.5 Z M3,11.5 L8.5,11.5 L8.5,17 L3,17 Z M11.5,11.5 L17,11.5 L17,17 L11.5,17 Z"/>
+              <TextBlock Text="{DynamicResource Rail.Tools}" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center"
+                         Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+            </StackPanel>
+          </Button>
+          <Button x:Name="RailAi" Style="{StaticResource RailButton}" ToolTip="{DynamicResource Main.ToggleAi}"
+                  Click="RailAi_Click">
+            <StackPanel>
+              <Path Width="20" Height="20" Stretch="None" HorizontalAlignment="Center" StrokeThickness="1.4"
+                    StrokeLineJoin="Round" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                    Data="M10,2.5 L11.7,7.4 L16.5,9 L11.7,10.6 L10,15.5 L8.3,10.6 L3.5,9 L8.3,7.4 Z M15.5,3 L16.3,4.7 L18,5.5 L16.3,6.3 L15.5,8 L14.7,6.3 L13,5.5 L14.7,4.7 Z"/>
+              <TextBlock Text="{DynamicResource Rail.Ai}" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center"
+                         Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+            </StackPanel>
+          </Button>
+          <Button x:Name="RailReader" Style="{StaticResource RailButton}" ToolTip="{DynamicResource Read.Review}" Click="RailReader_Click">
+            <StackPanel>
+              <Path Width="20" Height="20" Stretch="None" HorizontalAlignment="Center" StrokeThickness="1.4"
+                    Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                    Data="M5,1.5 H15 Q17,1.5 17,3.5 V16.5 Q17,18.5 15,18.5 H5 Q3,18.5 3,16.5 V3.5 Q3,1.5 5,1.5 Z M8,4 H12 M9,16 H11"/>
+              <TextBlock Text="{DynamicResource Read.Review}" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center"
+                         Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+            </StackPanel>
+          </Button>
+        </StackPanel>
+      </Border>
+
+      <c:UsageBubble x:Name="UsageBubbleView" Grid.ColumnSpan="7" Panel.ZIndex="20"/>
+    </Grid>
+  </DockPanel>
+  </Border>
+</Window>

@@ -1,0 +1,15 @@
+<UserControl x:Class="NovelGm.Desktop.Controls.NarrativeSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Expander Header="{DynamicResource Narrative.Title}" Margin="4,0,4,12" IsExpanded="True">
+    <StackPanel x:Name="Form" Margin="4,8,4,8">
+      <TextBlock Text="{DynamicResource Narrative.Scope}" TextWrapping="Wrap" FontSize="12"
+                 Foreground="{DynamicResource MutedBrush}" Margin="0,0,0,10"/>
+      <TextBlock Text="{DynamicResource Narrative.Pov}" Foreground="{DynamicResource TextBrush}" Margin="0,0,0,4"/>
+      <ComboBox x:Name="PovBox" HorizontalAlignment="Stretch"/>
+      <TextBlock x:Name="StatusText" TextWrapping="Wrap" FontSize="12" Foreground="{DynamicResource MutedBrush}" Margin="0,8,0,4"/>
+      <Button x:Name="SaveButton" Content="{DynamicResource Narrative.Save}" HorizontalAlignment="Left"
+              Click="Save_Click"/>
+    </StackPanel>
+  </Expander>
+</UserControl>

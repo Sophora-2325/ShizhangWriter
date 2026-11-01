@@ -1,0 +1,57 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!-- 校样台 · 深色中性底；与 Light.xaml 同键，Themes/Accents/*Dark.xaml 覆盖强调派生键 -->
+  <!-- 正文字体：书写面字体。拉丁走 Cambria，中文走宋体（出版物内文） -->
+  <FontFamily x:Key="BodyFontFamily">Cambria, SimSun, 宋体</FontFamily>
+
+  <SolidColorBrush x:Key="BgBrush" Color="#1B1D20"/>
+  <SolidColorBrush x:Key="Bg2Brush" Color="#141518"/>
+  <SolidColorBrush x:Key="Bg3Brush" Color="#1B1D20"/>
+  <SolidColorBrush x:Key="PageBrush" Color="#141518"/>
+  <SolidColorBrush x:Key="ControlBgBrush" Color="#1B1D20"/>
+  <SolidColorBrush x:Key="BorderBrushKey" Color="#2A2D31"/>
+  <SolidColorBrush x:Key="WindowBorderBrush" Color="#2A2D31"/>
+  <SolidColorBrush x:Key="TextBrush" Color="#E9E6DE"/>
+  <SolidColorBrush x:Key="MutedBrush" Color="#9A9EA6"/>
+  <SolidColorBrush x:Key="PlaceholderBrush" Color="#6E7278"/>
+  <!-- 强调默认朱砂；切换强调色时由 Themes/Accents 覆盖 -->
+  <SolidColorBrush x:Key="AccentBrush" Color="#D0725C"/>
+  <SolidColorBrush x:Key="AccentHoverBrush" Color="#DF8570"/>
+  <SolidColorBrush x:Key="AccentPressedBrush" Color="#B85B47"/>
+  <SolidColorBrush x:Key="SelectedBarBrush" Color="#D0725C"/>
+  <SolidColorBrush x:Key="DangerBrush" Color="#D0725C"/>
+  <SolidColorBrush x:Key="OkBrush" Color="#6E9E7C"/>
+  <SolidColorBrush x:Key="PrimaryFgBrush" Color="#141518"/>
+  <SolidColorBrush x:Key="InfoBgBrush" Color="#3A2320"/>
+  <SolidColorBrush x:Key="InfoBorderBrush" Color="#5A3A33"/>
+  <SolidColorBrush x:Key="SelectedBgBrush" Color="#3A2320"/>
+  <SolidColorBrush x:Key="WarningBgBrush" Color="#332A18"/>
+  <SolidColorBrush x:Key="WarningBorderBrush" Color="#5A4A28"/>
+  <SolidColorBrush x:Key="ToolHoverBrush" Color="#23262A"/>
+
+  <!-- 评注/审计固定朱砂语义，不随强调色变化 -->
+  <SolidColorBrush x:Key="ReviewBrush" Color="#D0725C"/>
+  <SolidColorBrush x:Key="ReviewTintBrush" Color="#3A2320"/>
+  <SolidColorBrush x:Key="ReviewBorderBrush" Color="#5A3A33"/>
+
+  <SolidColorBrush x:Key="SidebarBrush" Color="#141518"/>
+  <SolidColorBrush x:Key="SidebarHoverBrush" Color="#23262A"/>
+  <SolidColorBrush x:Key="SidebarPressedBrush" Color="#2B2F34"/>
+  <SolidColorBrush x:Key="SidebarSelectedBrush" Color="#3A2320"/>
+
+  <SolidColorBrush x:Key="ScrollThumbBrush" Color="#3A3E42"/>
+  <SolidColorBrush x:Key="ScrollThumbHoverBrush" Color="#4A4E53"/>
+
+  <!-- settings window -->
+  <SolidColorBrush x:Key="SetLineBrush" Color="#26292D"/>
+  <SolidColorBrush x:Key="SetCardBorderBrush" Color="#2A2D31"/>
+  <SolidColorBrush x:Key="SetNavHoverBrush" Color="#23262A"/>
+  <SolidColorBrush x:Key="SetNavSelectedBrush" Color="#2B2F34"/>
+  <SolidColorBrush x:Key="SetButtonHoverBrush" Color="#23262A"/>
+  <SolidColorBrush x:Key="SetFieldBrush" Color="#20242A"/>
+  <SolidColorBrush x:Key="SetStrongBrush" Color="#E9E6DE"/>
+  <SolidColorBrush x:Key="SetStrongFgBrush" Color="#141518"/>
+  <SolidColorBrush x:Key="SetStrongHoverBrush" Color="#F4F1E8"/>
+  <SolidColorBrush x:Key="SetSwitchOffBrush" Color="#4A4E53"/>
+  <SolidColorBrush x:Key="SetOnlineBrush" Color="#6E9E7C"/>
+</ResourceDictionary>

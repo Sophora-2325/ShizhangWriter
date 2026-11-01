@@ -1,0 +1,18 @@
+{
+  "name": "novel-gm",
+  "private": true,
+  "version": "0.3.21",
+  "description": "LLM 主理人小说 · 三栏 IDE · 单终端开发入口",
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c cyan,magenta \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "node scripts/run-api.js",
+    "dev:web": "npm run dev --prefix apps/web",
+    "stop": "node scripts/stop-ports.js",
+    "build:web": "npm run build --prefix apps/web",
+    "tauri:dev": "npm run tauri --prefix apps/desktop -- dev",
+    "tauri:build": "npm run tauri --prefix apps/desktop -- build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

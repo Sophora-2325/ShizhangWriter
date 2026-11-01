@@ -1,0 +1,108 @@
+<UserControl x:Class="NovelGm.Desktop.Controls.UsageBubble"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ Focusable="False" IsTabStop="False">
+  <UserControl.Resources>
+    <Style x:Key="UsageButton" TargetType="Button">
+      <Setter Property="Background" Value="{DynamicResource BgBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource BorderBrushKey}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="12,0"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="Shell" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="22" Padding="{TemplateBinding Padding}">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Shell" Property="Background" Value="{DynamicResource ToolHoverBrush}"/></Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Shell" Property="BorderBrush" Value="{DynamicResource AccentBrush}"/></Trigger>
+              <Trigger Property="IsPressed" Value="True"><Setter TargetName="Shell" Property="Background" Value="{DynamicResource SelectedBgBrush}"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="UsageLabel" TargetType="TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource MutedBrush}"/>
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="Margin" Value="0,5"/>
+    </Style>
+    <Style x:Key="UsageValue" TargetType="TextBlock" BasedOn="{StaticResource UsageLabel}">
+      <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+      <Setter Property="HorizontalAlignment" Value="Right"/>
+    </Style>
+  </UserControl.Resources>
+  <!-- The empty canvas has no background, so clicks outside these two surfaces reach the editor. -->
+  <Canvas x:Name="Surface" ClipToBounds="True" SizeChanged="Surface_SizeChanged">
+    <Button x:Name="Capsule" Height="44" Style="{StaticResource UsageButton}" Click="Capsule_Click"
+            ToolTip="{DynamicResource Usage.Tip}" AutomationProperties.Name="{DynamicResource Usage.Title}"
+            PreviewMouseLeftButtonDown="Drag_Start" PreviewMouseMove="Drag_Move"
+            PreviewMouseLeftButtonUp="Drag_End" PreviewKeyDown="Capsule_KeyDown">
+      <Button.Effect><DropShadowEffect BlurRadius="12" ShadowDepth="2" Direction="270" Opacity="0.12"/></Button.Effect>
+      <Button.ContextMenu>
+        <ContextMenu>
+          <MenuItem Header="{DynamicResource Usage.Reset}" Click="Reset_Click"/>
+          <MenuItem Header="{DynamicResource Usage.Hide}" Click="Hide_Click"/>
+        </ContextMenu>
+      </Button.ContextMenu>
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <Path Width="10" Height="16" Margin="0,0,10,0" Fill="{DynamicResource MutedBrush}" Stretch="Uniform"
+          Data="M2,1 A1,1 0 1 0 2,3 A1,1 0 1 0 2,1 M7,1 A1,1 0 1 0 7,3 A1,1 0 1 0 7,1 M2,7 A1,1 0 1 0 2,9 A1,1 0 1 0 2,7 M7,7 A1,1 0 1 0 7,9 A1,1 0 1 0 7,7 M2,13 A1,1 0 1 0 2,15 A1,1 0 1 0 2,13 M7,13 A1,1 0 1 0 7,15 A1,1 0 1 0 7,13"/>
+        <TextBlock x:Name="ScopeLabel" Text="{DynamicResource Usage.Short}" FontSize="12" VerticalAlignment="Center"/>
+        <TextBlock x:Name="Amount" Margin="8,0,0,0" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource AccentBrush}" VerticalAlignment="Center"/>
+        <Border Width="1" Height="17" Margin="10,0" Background="{DynamicResource BorderBrushKey}"/>
+        <TextBlock x:Name="TokenCount" FontSize="12" VerticalAlignment="Center"/>
+      </StackPanel>
+    </Button>
+    <Border x:Name="Details" Width="320" Visibility="Collapsed" Background="{DynamicResource BgBrush}"
+            BorderBrush="{DynamicResource BorderBrushKey}" BorderThickness="1" CornerRadius="12">
+      <Border.Effect><DropShadowEffect BlurRadius="16" ShadowDepth="3" Direction="270" Opacity="0.16"/></Border.Effect>
+      <ScrollViewer x:Name="DetailScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="18,14,18,16">
+          <DockPanel>
+            <Button DockPanel.Dock="Right" Style="{StaticResource SidebarIconButton}" Click="Collapse_Click"
+                    ToolTip="{DynamicResource Usage.Collapse}" AutomationProperties.Name="{DynamicResource Usage.Collapse}">
+              <Path Width="12" Height="7" Stroke="{DynamicResource MutedBrush}" StrokeThickness="1.5" Data="M1,1 L6,6 L11,1"/>
+            </Button>
+            <TextBlock Text="{DynamicResource Usage.Title}" Foreground="{DynamicResource TextBrush}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
+          </DockPanel>
+          <TextBlock Text="{DynamicResource Usage.Scope}" Style="{StaticResource UsageLabel}" TextWrapping="Wrap"/>
+          <TextBlock x:Name="DetailAmount" FontSize="26" FontWeight="SemiBold" Foreground="{DynamicResource AccentBrush}" Margin="0,8,0,0"/>
+          <TextBlock Text="{DynamicResource Usage.Estimate}" Style="{StaticResource UsageLabel}"/>
+          <TextBlock x:Name="Notice" Style="{StaticResource UsageLabel}" TextWrapping="Wrap"/>
+          <Border Height="1" Background="{DynamicResource BorderBrushKey}" Margin="0,10,0,8"/>
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <Grid.RowDefinitions><RowDefinition/><RowDefinition/><RowDefinition/><RowDefinition/></Grid.RowDefinitions>
+            <TextBlock Text="{DynamicResource Usage.TotalTokens}" Style="{StaticResource UsageLabel}"/>
+            <TextBlock x:Name="TotalValue" Grid.Column="1" Style="{StaticResource UsageValue}"/>
+            <TextBlock Grid.Row="1" Text="{DynamicResource Usage.Input}" Style="{StaticResource UsageLabel}"/>
+            <TextBlock x:Name="InputValue" Grid.Row="1" Grid.Column="1" Style="{StaticResource UsageValue}"/>
+            <TextBlock Grid.Row="2" Text="{DynamicResource Usage.Output}" Style="{StaticResource UsageLabel}"/>
+            <TextBlock x:Name="OutputValue" Grid.Row="2" Grid.Column="1" Style="{StaticResource UsageValue}"/>
+            <TextBlock Grid.Row="3" Text="{DynamicResource Usage.Cached}" Margin="10,5,0,5" Style="{StaticResource UsageLabel}"/>
+            <TextBlock x:Name="CachedValue" Grid.Row="3" Grid.Column="1" Style="{StaticResource UsageValue}"/>
+          </Grid>
+          <Border Height="1" Background="{DynamicResource BorderBrushKey}" Margin="0,12,0,8"/>
+          <TextBlock Text="{DynamicResource Usage.Last}" Style="{StaticResource UsageLabel}"/>
+          <TextBlock x:Name="LastCall" Foreground="{DynamicResource TextBrush}" TextTrimming="CharacterEllipsis" FontSize="12"/>
+          <TextBlock x:Name="LastAmount" Style="{StaticResource UsageLabel}"/>
+          <Border Height="1" Background="{DynamicResource BorderBrushKey}" Margin="0,12,0,8"/>
+          <TextBlock Text="{DynamicResource Usage.RateLabel}" Style="{StaticResource UsageLabel}" TextWrapping="Wrap"/>
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="1 USD = ¥" Style="{StaticResource UsageLabel}" Margin="0,0,8,0"/>
+            <TextBox x:Name="RateInput" Width="82" MaxLength="12" FontSize="12" Padding="6,3" MinHeight="28"
+                     AutomationProperties.Name="{DynamicResource Usage.RateLabel}" PreviewKeyDown="Rate_KeyDown"/>
+            <Button Content="{DynamicResource Usage.Apply}" Margin="8,0,0,0" Padding="8,3" MinHeight="28" Click="ApplyRate_Click"/>
+          </StackPanel>
+          <TextBlock x:Name="RateError" Visibility="Collapsed" Text="{DynamicResource Usage.RateError}" Foreground="{DynamicResource DangerBrush}" FontSize="12" TextWrapping="Wrap" Margin="0,6,0,0"/>
+          <TextBlock Text="{DynamicResource Usage.Footer}" Style="{StaticResource UsageLabel}" Margin="0,10,0,0" TextWrapping="Wrap"/>
+        </StackPanel>
+      </ScrollViewer>
+    </Border>
+  </Canvas>
+</UserControl>
